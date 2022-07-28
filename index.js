@@ -1,8 +1,8 @@
-// require('@babel/register')({
-//     plugins: [],
-// });
+require('@babel/register')({
+    plugins: [],
+});
 
-// // eslint-disable-next-line
-// require('@babel/polyfill');
+// eslint-disable-next-line
+require('@babel/polyfill');
 
 require('./server.js');

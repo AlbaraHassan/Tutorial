@@ -1,6 +1,6 @@
-const express = require("express")
-const cors = require("cors")
-
+import router from "./routers/router"
+import express from "express"
+import cors from "cors"
 
 const server = express()
 
@@ -13,9 +13,9 @@ const init = () => {
 
     server.use(cors())
 
-    
+    server.use("/test", router)
 
-    server.listen(PORT, ()=>{
+    server.listen(PORT, () => {
         console.log(`Listening on port ${PORT}`);
     })
 }
