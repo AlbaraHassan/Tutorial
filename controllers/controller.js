@@ -1,10 +1,6 @@
 import fs from "fs"
 import data from "../models/data.json"
 
-
-
-
-
 const get_all = (req, res) => {
     console.log(req.body, req.params, req.query);
     return res.send(
