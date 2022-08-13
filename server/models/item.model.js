@@ -14,7 +14,7 @@ const ItemSchema = new Schema({
     subcategory_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
-        ref: 'Category'
+        ref: 'Subcategory'
     },
     price: {
         type: Number,

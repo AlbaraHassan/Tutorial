@@ -1,41 +1,17 @@
-import { useState } from "react"
+import { Routes, Route, Link } from "react-router-dom";
+import Counter from "./components/Counter";
+import Items from "./components/Items";
 
 function App() {
-    const [ count, setCount ] = useState(0)
-    const [ error, setError ] = useState(false)
-    const [counterArray, setCounterArray] = useState([])
-
-    const increaseValue = () => {
-        if (error) {
-            setError(false)
-        }
-        setCount(count + 1)
-        setCounterArray([...counterArray, count+1])
-    }
-
-    const decreaseValue = () => {
-        if (count === 0) {
-            setError(true)
-            return
-        }
-        setCount(count - 1)
-        setCounterArray([...counterArray, count-1])
-
-    }
 
     return (
-        <div>
-            <div style={{ display: "flex" }}>
-                <button onClick={decreaseValue}>-</button>
-                <p style={{ height: "20px", margin: 0 }}>{count}</p>
-                <button onClick={increaseValue}>+</button>
-            </div>
+        <Routes>
+            <Route path="counter" element={<Counter />} />
+            <Route path="items" element={<Items/>} />
+        </Routes>
 
-            {error && (<div style={{ background: "red" }}>Cannot decrease more!</div>)}
 
-        {counterArray.map((el)=> <div>{el}</div>)}
 
-        </div>
     );
 }
 

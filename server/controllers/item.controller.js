@@ -13,6 +13,7 @@ const get_one_item = async(req, res) => {
 const get_all_items = async(req,res) => {
     try {
         const subcategories = await itemServiceHandler.get_all_items()
+        
         return res.send(subcategories)
     } catch (e) {
         return res.send({ "msg": e.message }).status(500);

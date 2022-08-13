@@ -3,7 +3,7 @@ import categoryServiceHandler from "../services/category.service";
 const get_one_category = async(req, res) => {
     try {
         const { params } = req
-        const category = awaitcategoryServiceHandler.get_one_category(params.id)
+        const category = await categoryServiceHandler.get_one_category(params.id)
         return res.send(category)
     } catch (e) {
         return res.send({ "msg": "ERROR" }).status(500);

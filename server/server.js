@@ -9,7 +9,7 @@ import mongoose from "mongoose"
 
 const server = express()
 
-const PORT = 3000
+const PORT = 5000
 
 const init = () => {
     //Connect to DB
