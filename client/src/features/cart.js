@@ -8,7 +8,12 @@ const cartSlice = createSlice({
             state.value = [...state.value, action.payload]
         },
         removeFromCart:(state, action)=>{
-            state.value = state.value.filter((el)=>el === action.payload)
+            let arr = []
+            for(let i of state.value){
+                if(i["_id"] !== action.payload) arr.push(i)
+            }
+            state.value = arr
+           
         }
     }
 })

@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { add, subtract } from '../features/counter'
+import { removeFromCart } from "../features/cart"
 
 function Cart() {
     const cart = useSelector((state) => state.cart.value)
     const counter = useSelector((state) => state.counter.value)
-    const [total, setTotal] = useState(0)
+    const [ total, setTotal ] = useState(0)
     const dispatch = useDispatch()
 
     const cartAddHandler = (arr) => {
         dispatch(add(arr))
-        let sum = arr[1]
-        for(let i of counter){
-            sum += i["price"]
+        let sum = arr[ 1 ]
+        for (let i of counter) {
+            sum += i[ "price" ]
         }
-        setTotal(sum) 
+        setTotal(sum)
         console.log(counter);
     }
 
-    const cartSubtracthandler = (arr) =>{
-        if(total <= 0) return
+    const cartSubtracthandler = (arr,rem) => {
         dispatch(subtract(arr))
-        let sum = -arr[1]
-        for(let i of counter){
-            sum += i["price"]
+        if(counter.length === 0){
+            dispatch(removeFromCart(rem))
+            console.log(rem);
+            setTotal(0)
+            return
         }
-        setTotal(sum) 
+
+        let sum = arr[ 1 ]
+        for (let i of counter) {
+
+            if (i[ "id" ] === arr[0] && i[ "price" ] === 0 ) {
+                dispatch(removeFromCart(rem))
+            }
+            sum = Math.abs(sum - i[ "price" ])
+        }
+        setTotal(sum)
         console.log(counter);
     }
+
+
+    useEffect(() => {
+
+        let sum = 0
+        for (let i of counter) {
+            sum += i[ "price" ]
+        }
+        setTotal(sum)
+
+    }, [])
+
 
 
 
@@ -41,8 +64,10 @@ function Cart() {
                     <p>Price: {el.price}</p>
                     <p>Category: {el.category_id.name}</p>
                     <p>Subcategory: {el.subcategory_id.name}</p>
-                    <button onClick={() => { cartAddHandler([el._id, el.price]) }}>Add</button>
-                    <button onClick={() => { cartSubtracthandler([el._id,el.price]) }}>Subtract</button>
+                    <button onClick={() => { cartAddHandler([ el._id, el.price ]) }} >Add</button>
+                    <button onClick={() => { cartSubtracthandler([ el._id, el.price ],el._id) }}>Subtract</button>
+                    <p></p>
+
 
                     #####################
                 </div>
@@ -53,6 +78,7 @@ function Cart() {
         <p>Total Price: {total}</p>
 
         <button>CHECKOUT</button>
+
 
     </div >
     )

@@ -4,25 +4,28 @@ const cartCounterSlice = createSlice({
     name: "cartCounter",
     initialState: { value: [] },
     reducers: {
-        add: (state,action) => {
-            let id = action.payload[0]
-            let price = action.payload[1]
-            let obj = {"id":id, "price":price}
-            for(let i of state.value){
-                if(i["id"] == id){
-                    i["price"] +=  price 
-                    return 
+        add: (state, action) => {
+            let id = action.payload[ 0 ]
+            let price = action.payload[ 1 ]
+            let obj = { "id": id, "price": price }
+            for (let i of state.value) {
+                if (i[ "id" ] === id) {
+                    i[ "price" ] += price
+                    return
                 }
             }
-            state.value = [...state.value, obj]
+            state.value = [ ...state.value, obj ]
         },
         subtract: (state, action) => {
-            let id = action.payload[0]
-            let price = action.payload[1]
-            let obj = {"id":id, "price":price}
-            for(let i of state.value){
-                if(i["id"] == id){
-                    i["price"] -= price 
+            let id = action.payload[ 0 ]
+            let price = action.payload[ 1 ]
+            for (let i of state.value) {
+                if (i[ "id" ] === id) {
+                    if (i[ "price" ] === 0) {
+                       state.value = state.value.filter((el)=>el["price"] !== 0)
+                        return
+                    }
+                    i[ "price" ] -= price
                     return
 
                 }
