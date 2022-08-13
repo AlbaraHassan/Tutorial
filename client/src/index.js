@@ -8,9 +8,8 @@ import { Provider } from "react-redux"
 import counterReducer from "./features/counter"
 import arrayReducer from "./features/array"
 import itemsReducer from "./features/items"
-import categoryReducer from "./features/categories"
-import subcategoryReducer from "./features/subcategory"
-import catsubReducer from "./features/cat&sub"
+import cartReducer from "./features/cart"
+
 import { BrowserRouter } from "react-router-dom";
 
 
@@ -19,12 +18,14 @@ const store = configureStore({
         counter: counterReducer,
         array: arrayReducer,
         items: itemsReducer,
-        category: categoryReducer,
-        subcategory: subcategoryReducer,
-        catsub: catsubReducer,
-        
+        cart: cartReducer     
     },
 
+})
+
+store.subscribe(()=>{
+    console.log("State Updated");
+    console.log(store.getState());
 })
 
 

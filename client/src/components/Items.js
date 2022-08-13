@@ -2,32 +2,27 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux'
 import { getAll } from "../features/items"
+import { addCart, removeFromCart } from '../features/cart'
+import { useNavigate } from "react-router-dom";
+
 import "../App.css"
-import { getCat } from '../features/categories'
-import { getSub } from '../features/subcategory'
+
 function Items() {
     const items = useSelector((state) => state.items.value)
-    const category = useSelector((state) => state.category.value)
-    const subcategory = useSelector((state) => state.subcategory.value)
-    const [ b, setB ] = useState(false)
+    const cart = useSelector((state) => state.cart.value)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
-
-
-    const fetchCat = async (id) => {
-        const res = await axios.get(`http://localhost:5000/category/${id}`)
-        const data = res.data
-        dispatch(getCat(data.name))
+    const handleCart = (obj) => {
+        if (cart.includes(obj)) return
+        dispatch(addCart(obj))
     }
 
-    const fetchSub = async (id) => {
-        const res = await axios.get(`http://localhost:5000/subcategory/${id}`)
-        console.log(res);
-
-        const data = res.data
-
-        dispatch(getSub(data.name))
+    const handleRemove = (obj) => {
+        dispatch(removeFromCart(obj))
     }
+
+
 
     const fetchAllItems = async () => {
         const res = await axios.get("http://localhost:5000/item")
@@ -36,9 +31,8 @@ function Items() {
     }
 
     useEffect(() => {
-
-
-        fetchAllItems()
+        console.log([1,2,3]*2);
+        if(items.length === 0)fetchAllItems()
 
     }, [])
 
@@ -46,21 +40,27 @@ function Items() {
 
     return (
         <>
+            <button onClick={()=>{navigate("/cart")}}>Go To Cart</button>
 
             {items.map((el) => {
-                return <div class="center"><div key={el._id} className="text" style={{ padding: "50px" }}>
+                return <div className="center" key={el._id}><div className="text" style={{ padding: "50px" }}>
                     #####################
                     <p>Name: {el.name}</p>
                     <p>Price: {el.price}</p>
                     <p>Quantity: {el.quantity}</p>
-                    <p key={el.category_id}>Category: {el.category_id.name}</p>
-                    <p key={el.subcategory_id}>Subcategory: {el.subcategory_id.name}</p>
+                    <p>Category: {el.category_id.name}</p>
+                    <p>Subcategory: {el.subcategory_id.name}</p>
+                    <button onClick={() => { handleCart(el) }}>Add To Cart</button>
+                    <p></p>
+
+                    {cart.includes(el) ? <div>
+                        <p>Added To Cart</p>
+                        <button onClick={() => { handleRemove(el) }}>Remove From Cart</button>
+                    </div> : <></>}
                     #####################
                 </div>
                 </div>
             })}
-
-
         </>
     )
 

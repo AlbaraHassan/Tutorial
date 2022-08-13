@@ -1,6 +1,7 @@
 import categoryRouter from "./routers/category.router"
 import subcategoryRouter from "./routers/subcategory.router"
 import itemRouter from "./routers/item.router"
+import cartRouter from "./routers/cart.router"
 
 import express from "express"
 import cors from "cors"
@@ -24,6 +25,8 @@ const init = () => {
     server.use("/subcategory", subcategoryRouter)
     
     server.use("/item", itemRouter)
+
+    server.use("/cart", cartRouter)
 
 
     server.listen(PORT, () => {
