@@ -20,23 +20,22 @@ function Cart() {
     }
 
     const cartSubtracthandler = (arr,rem) => {
-        dispatch(subtract(arr))
         if(counter.length === 0){
             dispatch(removeFromCart(rem))
             console.log(rem);
             setTotal(0)
             return
         }
+        dispatch(subtract(arr))
 
-        let sum = arr[ 1 ]
         for (let i of counter) {
 
             if (i[ "id" ] === arr[0] && i[ "price" ] === 0 ) {
                 dispatch(removeFromCart(rem))
             }
-            sum = Math.abs(sum - i[ "price" ])
+           else if(i["id"]=== arr[0]) setTotal(total - arr[ 1 ])
+
         }
-        setTotal(sum)
         console.log(counter);
     }
 
