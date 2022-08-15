@@ -5,6 +5,7 @@ import { getAll } from "../features/items"
 import { addCart, removeFromCart } from '../features/cart'
 import { useNavigate } from "react-router-dom";
 
+
 import "../App.css"
 
 function Items() {
@@ -22,6 +23,19 @@ function Items() {
         dispatch(removeFromCart(obj))
     }
 
+    const login = async () => {
+        axios.defaults.withCredentials = true;
+        const res = await axios.post("http://localhost:5000/user/login", { username: "Albara", password: "braa1234" })
+        console.log(res.data);
+    }
+
+    const profile = async () => {
+        const res = await axios.get("http://localhost:5000/user/profile", {
+            withCredentials: true
+        })
+        console.log(res.data);
+    }
+
 
 
     const fetchAllItems = async () => {
@@ -31,8 +45,8 @@ function Items() {
     }
 
     useEffect(() => {
-        console.log([1,2,3]*2);
-        if(items.length === 0)fetchAllItems()
+        console.log([ 1, 2, 3 ] * 2);
+        if (items.length === 0) fetchAllItems()
 
     }, [])
 
@@ -40,7 +54,9 @@ function Items() {
 
     return (
         <>
-            <button onClick={()=>{navigate("/cart")}}>Go To Cart</button>
+            <button onClick={profile}>Profile</button>
+            <button onClick={login}>Login</button>
+            <button onClick={() => { navigate("/cart") }}>Go To Cart</button>
 
             {items.map((el) => {
                 return <div className="center" key={el._id}><div className="text" style={{ padding: "50px" }}>
