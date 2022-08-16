@@ -22,17 +22,20 @@ const login = async (req, res) => {
             maxAge: 864000000,
             httpOnly: true
         })
-        return res.send({ "username": username, "id":id })
+        return res.send({ "username": username, "id": id })
     }
     catch (e) {
         return res.send({ "msg": e.message }).status(500);
     }
 }
 
-const profile = async (req, res) => {
+const updateUser = async (req, res) => {
     try {
-        return res.send("dwdawd")
-    } catch (e) {
+        const { params, body } = req;
+        const user = await userServiceHandler.updateUser(params.id, body);
+        return res.send(user)
+    }
+    catch (e) {
         return res.send({ "msg": e.message }).status(500);
     }
 }
@@ -42,7 +45,7 @@ const profile = async (req, res) => {
 const userControllerHandler = {
     register,
     login,
-    profile
+    updateUser
 
 }
 

@@ -58,7 +58,7 @@ function Items() {
             isLogged ? <button onClick={signout}>SignOut</button> : <button onClick={()=>{navigate("/register")}}>Register</button>
         }
             {isLogged? <></> :<button onClick={login}>Login</button>}
-            <button onClick={() => { navigate("/cart") }}>Go To Cart</button>
+            <button onClick={() => { navigate("/cart") }} disabled={!isLogged?true:false}>Go To Cart</button>
 
             {items.map((el) => {
                 return <div className="center" key={el._id}><div className="text" style={{ padding: "50px" }}>

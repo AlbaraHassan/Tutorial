@@ -14,10 +14,13 @@ const cartSlice = createSlice({
             }
             state.value = arr
            
+        },
+        cartClear:(state)=>{
+            state.value = []
         }
     }
 })
 
-export const { addCart, removeFromCart } = cartSlice.actions
+export const { addCart, removeFromCart, cartClear } = cartSlice.actions
 
 export default cartSlice.reducer

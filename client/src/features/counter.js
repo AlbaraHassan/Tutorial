@@ -31,12 +31,12 @@ const cartCounterSlice = createSlice({
                 }
             }
         },
-        addByAmount: (store, action) => {
-            store.value += action.payload
-        }
+        counterClear: (store) => {
+            store.value  = []
+        },
     }
 })
 
-export const { add, subtract, addByAmount } = cartCounterSlice.actions
+export const { add, subtract, counterClear } = cartCounterSlice.actions
 
 export default cartCounterSlice.reducer

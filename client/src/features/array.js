@@ -10,10 +10,13 @@ const arraySlice = createSlice({
         },
         arrayRemove: (state, action) => {
             state.value = state.value.filter((i => v => v !== action.payload || --i)(1));
+        },
+        arrayClear: (state)=>{
+            state.value = []
         }
     }
 })
 
-export const { arrayAdd, arrayRemove } = arraySlice.actions
+export const { arrayAdd, arrayRemove, arrayClear } = arraySlice.actions
 
 export default arraySlice.reducer

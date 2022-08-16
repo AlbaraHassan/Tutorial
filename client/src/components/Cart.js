@@ -1,26 +1,31 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { add, subtract } from '../features/counter'
-import { removeFromCart } from "../features/cart"
-import { arrayAdd, arrayRemove } from "../features/array"
+import { add, subtract, counterClear } from '../features/counter'
+import { removeFromCart, cartClear } from "../features/cart"
+import { arrayAdd, arrayRemove, arrayClear } from "../features/array"
+import { useNavigate } from "react-router-dom";
+
+import axios from "axios"
 
 function Cart() {
     const cart = useSelector((state) => state.cart.value)
     const counter = useSelector((state) => state.counter.value)
     const array = useSelector((state) => state.array.value)
     const [ total, setTotal ] = useState(0)
+    const [ isOk, setIsOk ] = useState()
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const cartAddHandler = (arr) => {
         dispatch(arrayAdd(arr[ 0 ]))
-        
+
         dispatch(add(arr))
         let sum = arr[ 1 ]
         for (let i of counter) {
             sum += i[ "price" ]
         }
         setTotal(sum)
-        
+
     }
 
     const cartSubtracthandler = (arr, rem) => {
@@ -44,6 +49,50 @@ function Cart() {
         }
 
         console.log(counter);
+    }
+
+    const handleCheckout = async () => {
+        const items = array
+        const totalPrice = total
+
+        const id = JSON.parse(localStorage.getItem("user"))[ "id" ]
+
+
+        const cartRes = await axios.post("http://localhost:5000/cart", {
+            "item": items,
+            "totalPrice": totalPrice
+        })
+
+        const userRes = await axios.post(`http://localhost:5000/user/update/${id}`, {
+
+            "cart": cartRes.data._id
+        }, {
+            withCredentials: true
+        })
+
+        if (userRes.data[ "msg" ]) {
+            setIsOk(false)
+            return
+        }
+
+        setIsOk(true)
+
+        dispatch(counterClear())
+        dispatch(arrayClear())
+        dispatch(cartClear())
+
+
+
+
+
+        setTimeout(() => {
+            navigate("/items")
+        }, 3000);
+
+
+
+
+
     }
 
 
@@ -84,7 +133,10 @@ function Cart() {
         }
         <p>Total Price: {total}</p>
 
-        <button>CHECKOUT</button>
+        <button onClick={handleCheckout}>CHECKOUT</button>
+        {isOk ? <p>Purchase Completed</p> : <></>}
+        {isOk === false? <p>Error During Purchase</p> : <></>}
+
 
 
     </div >

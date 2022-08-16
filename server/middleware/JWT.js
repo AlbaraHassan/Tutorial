@@ -10,7 +10,6 @@ const validateToken = (req, res, next) => {
         const accessToken = req.cookies["access-token"]
         if (!accessToken) throw Error("Not authenticated")
 
-
         const validToken = verify(accessToken, "topsecret")
         if (validToken) {
             req.authenticated = true

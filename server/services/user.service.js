@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import User from "../models/user.model"
 import bcrypt from "bcrypt"
 import { createTokens } from "../middleware/JWT"
+import Cart from "../models/cart.model"
 
 const usernameValidator = async (username) => {
     const user = await User.findOne({ username: username }).then((obj) => obj)
@@ -39,10 +40,37 @@ const login = async (data) => {
 }
 
 
+const updateUser = async (id, data) => {
+
+    const cart = data["cart"]
+    console.log(cart);
+
+    const val = await Cart.findById(cart)
+    if (!val) throw Error("Cart Does not exist")
+
+    const user = await User.findById(id)
+    let newCart = user[ "cart" ]
+    newCart = [ ...newCart, cart ]
+
+    const objectToUpdate = {"cart" : newCart };
+    console.log(newCart);
+
+    return await User.updateOne({
+        _id: mongoose.Types.ObjectId(id)
+    }, {
+        $set: {
+            ...objectToUpdate
+        }
+    }, {
+        upsert: true
+    });
+};
+
 
 const userServiceHandler = {
     register,
     login,
+    updateUser
 
 }
 

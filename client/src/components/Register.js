@@ -30,23 +30,25 @@ function Register() {
         setIsSuccess(true)
         setTimeout(() => {
             navigate("/items")
-        }, 3000);
+        }, 1500);
 
     }
 
     return (
-        <div className="text">
-            {isSuccess ? <p>Regiteration Complete</p> : <></>}
-            {isSuccess === false ? <p>An Error Occured</p> : <></>}
-            <p>Enter Username:</p>
-            <input onChange={(e) => { setUsername(e.target.value) }}></input>
-            <p>Enter Password:</p>
-            <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
-            <p>Enter Password Again:</p>
-            <input type="password" onChange={(e) => { validatePassword(e) }}></input>
-            {isSame ? <></> : <p>Passwords Do Not Match</p>}
+        <div className='center'>
+            <div className="text">
+                {isSuccess ? <p>Regiteration Complete</p> : <></>}
+                {isSuccess === false ? <p>Username is already in use</p> : <></>}
+                <p>Enter Username:</p>
+                <input onChange={(e) => { setUsername(e.target.value) }}></input>
+                <p>Enter Password:</p>
+                <input type="password" onChange={(e) => { setPassword(e.target.value) }}></input>
+                <p>Enter Password Again:</p>
+                <input type="password" onChange={(e) => { validatePassword(e) }}></input>
+                {isSame ? <></> : <p>Passwords Do Not Match</p>}
 
-            <button onClick={handleSubmit}>Submit</button>
+                <button onClick={handleSubmit}>Submit</button>
+            </div>
         </div>
 
     )
