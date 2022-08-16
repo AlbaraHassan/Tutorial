@@ -4,8 +4,8 @@ import bcrypt from "bcrypt"
 import { createTokens } from "../middleware/JWT"
 
 const usernameValidator = async (username) => {
-    const user = await User.findOne({username:username}).then((obj)=>obj)
-    if(!user) return
+    const user = await User.findOne({ username: username }).then((obj) => obj)
+    if (!user) return
     throw Error("Username is already used")
 }
 
@@ -35,7 +35,7 @@ const login = async (data) => {
 
 
 
-    return  accessToken
+    return { "accessToken": accessToken, "username": user.username, "id": user._id }
 }
 
 

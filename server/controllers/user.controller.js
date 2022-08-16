@@ -17,11 +17,12 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { body } = req;
-        const accessToken = await userServiceHandler.login(body)
+        const { accessToken, username, id } = await userServiceHandler.login(body)
         res.cookie("access-token", accessToken, {
-            maxAge: 864000000
+            maxAge: 864000000,
+            httpOnly: true
         })
-        return res.send({ "msg": "User Logged In" })
+        return res.send({ "username": username, "id":id })
     }
     catch (e) {
         return res.send({ "msg": e.message }).status(500);

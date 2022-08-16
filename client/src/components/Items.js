@@ -3,19 +3,23 @@ import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux'
 import { getAll } from "../features/items"
 import { addCart, removeFromCart } from '../features/cart'
+
 import { useNavigate } from "react-router-dom";
 
 
 import "../App.css"
 
 function Items() {
+    
     const items = useSelector((state) => state.items.value)
     const cart = useSelector((state) => state.cart.value)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+    const [ isLogged, setIsLogged ] = useState(false)
 
     const handleCart = (obj) => {
         if (cart.includes(obj)) return
+
         dispatch(addCart(obj))
     }
 
@@ -24,16 +28,12 @@ function Items() {
     }
 
     const login = async () => {
-        axios.defaults.withCredentials = true;
-        const res = await axios.post("http://localhost:5000/user/login", { username: "Albara", password: "braa1234" })
-        console.log(res.data);
+        navigate("/login")
     }
 
-    const profile = async () => {
-        const res = await axios.get("http://localhost:5000/user/profile", {
-            withCredentials: true
-        })
-        console.log(res.data);
+    const signout = async () => {
+        localStorage.removeItem("user")
+        setIsLogged(false)
     }
 
 
@@ -47,15 +47,17 @@ function Items() {
     useEffect(() => {
         console.log([ 1, 2, 3 ] * 2);
         if (items.length === 0) fetchAllItems()
+        if (localStorage.getItem("user")) setIsLogged(true)
 
     }, [])
 
 
 
     return (
-        <>
-            <button onClick={profile}>Profile</button>
-            <button onClick={login}>Login</button>
+        <>{
+            isLogged ? <button onClick={signout}>SignOut</button> : <button onClick={()=>{navigate("/register")}}>Register</button>
+        }
+            {isLogged? <></> :<button onClick={login}>Login</button>}
             <button onClick={() => { navigate("/cart") }}>Go To Cart</button>
 
             {items.map((el) => {

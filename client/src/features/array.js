@@ -1,14 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit"
 
+
 const arraySlice = createSlice({
     name: "array",
     initialState: { value: [] },
     reducers: {
         arrayAdd: (state, action) => {
-            state.value = [...state.value, action.payload]
+            state.value = [ ...state.value, action.payload ]
         },
-        arrayRemove:(state)=>{
-            state.value.pop()
+        arrayRemove: (state, action) => {
+            state.value = state.value.filter((i => v => v !== action.payload || --i)(1));
         }
     }
 })

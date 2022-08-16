@@ -9,7 +9,6 @@ import counterReducer from "./features/counter"
 import arrayReducer from "./features/array"
 import itemsReducer from "./features/items"
 import cartReducer from "./features/cart"
-
 import { BrowserRouter } from "react-router-dom";
 
 
@@ -18,7 +17,7 @@ const store = configureStore({
         counter: counterReducer,
         array: arrayReducer,
         items: itemsReducer,
-        cart: cartReducer     
+        cart: cartReducer,
     },
 
 })
