@@ -110,32 +110,35 @@ function Cart() {
 
     return (<div>
         {localStorage.getItem("user") ? <p>Logged In As: {`${JSON.parse(localStorage.getItem("user")).username}`}</p> : <p>Not Logged In</p>}
-        {
 
-            cart.map((el) => {
-                return <div className="center" key={el._id}><div className="text" style={{ padding: "50px" }}>
-                    #####################
-                    <p>Name: {el.name}</p>
-                    <p>Price: {el.price}</p>
-                    <p>Category: {el.category_id.name}</p>
-                    <p>Subcategory: {el.subcategory_id.name}</p>
-                    <p>Quantity: {counter.map((e) => { if (e.id === el._id) return `${e.price / el.price}` })}</p>
-                    <button onClick={() => { cartAddHandler([ el._id, el.price ]) }} >Add</button>
-                    <button onClick={() => { cartSubtracthandler([ el._id, el.price ], el._id) }}>Subtract</button>
-                    <p></p>
+        <div className='w3-display-topmiddle'>
+            {
+                cart.map((el) => {
+                    return <div className="w3-panel w3-card-4 w3-center w3-animate-top w3-padding-64" key={el._id}><div className="text" style={{ padding: "50px" }}>
+                        #####################
+                        <p>Name: {el.name}</p>
+                        <p>Price: {el.price}</p>
+                        <p>Category: {el.category_id.name}</p>
+                        <p>Subcategory: {el.subcategory_id.name}</p>
+                        <p>Quantity: {counter.map((e) => { if (e.id === el._id) return `${e.price / el.price}` })}</p>
+                        <button className="w3-button w3-round-xxlarge w3-blue w3-hover-aqua" onClick={() => { cartAddHandler([ el._id, el.price ]) }} >Add</button>
+                        <button className='w3-button w3-round-xxlarge w3-red w3-hover-aqua' onClick={() => { cartSubtracthandler([ el._id, el.price ], el._id) }}>Subtract</button>
+                        <p></p>
 
 
-                    #####################
-                </div>
-                </div>
-            })
+                        #####################
+                    </div>
+                    </div>
+                })
 
-        }
-        <p>Total Price: {total}</p>
+            }
+        </div>
 
-        <button onClick={handleCheckout}>CHECKOUT</button>
+        <p >Total Price: {total}</p>
+
+        <button className="w3-button w3-round-xxlarge w3-blue w3-hover-aqua" onClick={handleCheckout}>CHECKOUT</button>
         {isOk ? <p>Purchase Completed</p> : <></>}
-        {isOk === false? <p>Error During Purchase</p> : <></>}
+        {isOk === false ? <p>Error During Purchase</p> : <></>}
 
 
 

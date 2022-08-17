@@ -35,10 +35,11 @@ function Register() {
     }
 
     return (
-        <div className='center'>
+
+        <div className='w3-panel w3-card-4 w3-center  w3-display-middle w3-padding-64 w3-animate-opacity'>
             <div className="text">
-                {isSuccess ? <p>Regiteration Complete</p> : <></>}
-                {isSuccess === false ? <p>Username is already in use</p> : <></>}
+                {isSuccess ? <div class="w3-pale-green w3-round-xxlarge w3-border w3-animate-top"> <p>Regiteration Complete</p></div> : <></>}
+                {isSuccess === false ? <div className='w3-pale-red w3-border w3-round-xxlarge w3-animate-top'><p>Username is already in use</p> </div> : <></>}
                 <p>Enter Username:</p>
                 <input onChange={(e) => { setUsername(e.target.value) }}></input>
                 <p>Enter Password:</p>

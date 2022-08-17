@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux'
 import { getAll } from "../features/items"
-import { addCart, removeFromCart } from '../features/cart'
+import { addCart, removeFromCartById } from '../features/cart'
 
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 import "../App.css"
 
 function Items() {
-    
+
     const items = useSelector((state) => state.items.value)
     const cart = useSelector((state) => state.cart.value)
     const dispatch = useDispatch()
@@ -24,7 +24,7 @@ function Items() {
     }
 
     const handleRemove = (obj) => {
-        dispatch(removeFromCart(obj))
+        dispatch(removeFromCartById(obj))
     }
 
     const login = async () => {
@@ -54,31 +54,34 @@ function Items() {
 
 
     return (
-        <>{
-            isLogged ? <button onClick={signout}>SignOut</button> : <button onClick={()=>{navigate("/register")}}>Register</button>
-        }
-            {isLogged? <></> :<button onClick={login}>Login</button>}
-            <button onClick={() => { navigate("/cart") }} disabled={!isLogged?true:false}>Go To Cart</button>
+        <>
+            <div class="w3-bar w3-grey">{
+                isLogged ? <button className="w3-bar-item w3-button w3-hover-blue" onClick={signout}>SignOut</button> : <button className="w3-bar-item w3-button" onClick={() => { navigate("/register") }}>Register</button>
+            }
+                {isLogged ? <></> : <button className="w3-bar-item w3-button w3-hover-blue" onClick={login}>Login</button>}
+                <button className="w3-bar-item w3-button w3-hover-blue" onClick={() => { navigate("/cart") }} disabled={!isLogged ? true : false}>Go To Cart</button>
+            </div>
+            <div className='w3-display-topmiddle'>
+                {items.map((el) => {
+                    return <div className="w3-panel w3-card-4 w3-center w3-animate-top w3-padding-64" key={el._id}><div className="text" style={{ padding: "50px" }}>
+                        #####################
+                        <p>Name: {el.name}</p>
+                        <p>Price: {el.price}</p>
+                        <p>Quantity: {el.quantity}</p>
+                        <p>Category: {el.category_id.name}</p>
+                        <p>Subcategory: {el.subcategory_id.name}</p>
+                        {!cart.includes(el) ? <button className='w3-button w3-round-xxlarge w3-blue w3-hover-aqua' onClick={() => { handleCart(el) }}>Add To Cart</button> : <></>}
+                        <p></p>
 
-            {items.map((el) => {
-                return <div className="center" key={el._id}><div className="text" style={{ padding: "50px" }}>
-                    #####################
-                    <p>Name: {el.name}</p>
-                    <p>Price: {el.price}</p>
-                    <p>Quantity: {el.quantity}</p>
-                    <p>Category: {el.category_id.name}</p>
-                    <p>Subcategory: {el.subcategory_id.name}</p>
-                    <button onClick={() => { handleCart(el) }}>Add To Cart</button>
-                    <p></p>
-
-                    {cart.includes(el) ? <div>
-                        <p>Added To Cart</p>
-                        <button onClick={() => { handleRemove(el) }}>Remove From Cart</button>
-                    </div> : <></>}
-                    #####################
-                </div>
-                </div>
-            })}
+                        {cart.includes(el) ? <div>
+                            <p>Added To Cart</p>
+                            <button className='w3-button w3-round-xxlarge w3-red w3-hover-blue' onClick={() => { handleRemove(el) }}>Remove From Cart</button>
+                        </div> : <></>}
+                        #####################
+                    </div>
+                    </div>
+                })}
+            </div>
         </>
     )
 
