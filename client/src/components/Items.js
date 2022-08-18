@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import { useDispatch, useSelector } from 'react-redux'
 import { getAll } from "../features/items"
-import { addCart, removeFromCartById } from '../features/cart'
+import { addCart, cartClear, removeFromCartById } from '../features/cart'
 
 import { useNavigate } from "react-router-dom";
 
@@ -20,6 +20,7 @@ function Items() {
     const handleCart = (obj) => {
         if (cart.includes(obj)) return
 
+
         dispatch(addCart(obj))
     }
 
@@ -34,6 +35,7 @@ function Items() {
     const signout = async () => {
         localStorage.removeItem("user")
         setIsLogged(false)
+        dispatch(cartClear())
     }
 
 
@@ -55,7 +57,7 @@ function Items() {
 
     return (
         <>
-            <div class="w3-bar w3-grey">{
+            <div className="w3-bar w3-grey">{
                 isLogged ? <button className="w3-bar-item w3-button w3-hover-blue" onClick={signout}>SignOut</button> : <button className="w3-bar-item w3-button" onClick={() => { navigate("/register") }}>Register</button>
             }
                 {isLogged ? <></> : <button className="w3-bar-item w3-button w3-hover-blue" onClick={login}>Login</button>}
@@ -70,11 +72,12 @@ function Items() {
                         <p>Quantity: {el.quantity}</p>
                         <p>Category: {el.category_id.name}</p>
                         <p>Subcategory: {el.subcategory_id.name}</p>
-                        {!cart.includes(el) ? <button className='w3-button w3-round-xxlarge w3-blue w3-hover-aqua' onClick={() => { handleCart(el) }}>Add To Cart</button> : <></>}
+                        {!cart.includes(el) ? <button className='w3-button w3-round-xxlarge w3-blue w3-hover-aqua' onClick={() => { handleCart(el) }}  disabled={!isLogged ? true : false}>Add To Cart</button> : <></>}
                         <p></p>
 
                         {cart.includes(el) ? <div>
                             <p>Added To Cart</p>
+                            
                             <button className='w3-button w3-round-xxlarge w3-red w3-hover-blue' onClick={() => { handleRemove(el) }}>Remove From Cart</button>
                         </div> : <></>}
                         #####################

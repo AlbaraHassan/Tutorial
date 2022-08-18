@@ -137,8 +137,8 @@ function Cart() {
         <p >Total Price: {total}</p>
 
         <button className="w3-button w3-round-xxlarge w3-blue w3-hover-aqua" onClick={handleCheckout}>CHECKOUT</button>
-        {isOk ? <p>Purchase Completed</p> : <></>}
-        {isOk === false ? <p>Error During Purchase</p> : <></>}
+        {isOk ? <div className='w3-pale-green w3-round-xxlarge w3-border w3-animate-top'> <p>Purchase Completed</p></div> : <></>}
+        {isOk === false ? <div className='w3-pale-red w3-round-xxlarge w3-border w3-animate-top'> <p>Error During Purchase</p> </div> : <></>}
 
 
 
