@@ -47,10 +47,12 @@ function Items() {
     }
 
     useEffect(() => {
-        console.log([ 1, 2, 3 ] * 2);
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/login")
+            return
+        }
         if (items.length === 0) fetchAllItems()
         if (localStorage.getItem("user")) setIsLogged(true)
-
     }, [])
 
 
@@ -72,12 +74,12 @@ function Items() {
                         <p>Quantity: {el.quantity}</p>
                         <p>Category: {el.category_id.name}</p>
                         <p>Subcategory: {el.subcategory_id.name}</p>
-                        {!cart.includes(el) ? <button className='w3-button w3-round-xxlarge w3-blue w3-hover-aqua' onClick={() => { handleCart(el) }}  disabled={!isLogged ? true : false}>Add To Cart</button> : <></>}
+                        {!cart.includes(el) ? <button className='w3-button w3-round-xxlarge w3-blue w3-hover-aqua' onClick={() => { handleCart(el) }} disabled={!isLogged ? true : false}>Add To Cart</button> : <></>}
                         <p></p>
 
                         {cart.includes(el) ? <div>
                             <p>Added To Cart</p>
-                            
+
                             <button className='w3-button w3-round-xxlarge w3-red w3-hover-blue' onClick={() => { handleRemove(el) }}>Remove From Cart</button>
                         </div> : <></>}
                         #####################

@@ -1,22 +1,22 @@
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Items from "./components/Items";
 import Cart from "./components/Cart";
-import Register from "./components/Register";
-import Login from "./components/Login";
 import Redirect from "./components/Redirect";
-import { useEffect } from "react";
+import MUIRegister from "./components/MUIRegister";
+import MUILogin from "./components/MUILogin"
+import MUIItems from "./components/MUIItems";
 
 
 function App() {
-    
-    
+
+
+
     return (
         <Routes>
-            <Route path="" element={<Redirect/>}/>
-            <Route path="items" element={<Items/>} />
-            <Route path="cart" element={<Cart/>}/>
-            <Route path="register" element={<Register/>}/>
-            <Route path="login" element={<Login/>}/>
+            <Route path="" element={<Redirect />} />
+            <Route path="items" element={<MUIItems />} />
+            <Route path="cart" element={<Cart />} />
+            <Route path="register" element={<MUIRegister />} />
+            <Route path="login" element={<MUILogin />} />
         </Routes>
 
 

@@ -10,6 +10,8 @@ import arrayReducer from "./features/array"
 import itemsReducer from "./features/items"
 import cartReducer from "./features/cart"
 import { BrowserRouter } from "react-router-dom";
+import userReducer from "./features/user"
+
 
 
 const store = configureStore({
@@ -18,6 +20,7 @@ const store = configureStore({
         array: arrayReducer,
         items: itemsReducer,
         cart: cartReducer,
+        user: userReducer
     },
 
 })

@@ -66,7 +66,7 @@ const updateUser = async (id, data) => {
 const getUser = async (authorization) => {
     const id = verify(authorization, "topsecret").id;
     console.log(id);
-    const user = await User.findById(id)
+    const user = await User.findById(id).populate("cart")
     return user
 }
 

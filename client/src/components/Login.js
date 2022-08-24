@@ -23,7 +23,7 @@ function Login() {
             setIsSuccess(false)
             return
         }
-        localStorage.setItem('user', JSON.stringify(res.data));
+        localStorage.setItem('jwt', JSON.stringify(res.data));
         setIsSuccess(true)
         setTimeout(() => {
             navigate("/items")

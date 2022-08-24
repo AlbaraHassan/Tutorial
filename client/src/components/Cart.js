@@ -97,6 +97,10 @@ function Cart() {
 
 
     useEffect(() => {
+        if (!localStorage.getItem("accessToken")) {
+            navigate("/login")
+            return
+        }
         let sum = 0
         for (let i of counter) {
             sum += i[ "price" ]
