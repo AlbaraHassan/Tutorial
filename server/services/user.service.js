@@ -3,6 +3,8 @@ import User from "../models/user.model"
 import bcrypt from "bcrypt"
 import { createTokens } from "../middleware/JWT"
 import Cart from "../models/cart.model"
+import { verify } from "jsonwebtoken"
+
 
 const usernameValidator = async (username) => {
     const user = await User.findOne({ username: username }).then((obj) => obj)
@@ -31,18 +33,13 @@ const login = async (data) => {
 
     const accessToken = createTokens(user)
 
-
-
-
-
-
-    return { "accessToken": accessToken, "username": user.username, "id": user._id }
+    return { "accessToken": accessToken }
 }
 
 
 const updateUser = async (id, data) => {
 
-    const cart = data["cart"]
+    const cart = data[ "cart" ]
     console.log(cart);
 
     const val = await Cart.findById(cart)
@@ -52,7 +49,7 @@ const updateUser = async (id, data) => {
     let newCart = user[ "cart" ]
     newCart = [ ...newCart, cart ]
 
-    const objectToUpdate = {"cart" : newCart };
+    const objectToUpdate = { "cart": newCart };
     console.log(newCart);
 
     return await User.updateOne({
@@ -66,11 +63,19 @@ const updateUser = async (id, data) => {
     });
 };
 
+const getUser = async (authorization) => {
+    const id = verify(authorization, "topsecret").id;
+    console.log(id);
+    const user = await User.findById(id)
+    return user
+}
+
 
 const userServiceHandler = {
     register,
     login,
-    updateUser
+    updateUser,
+    getUser
 
 }
 

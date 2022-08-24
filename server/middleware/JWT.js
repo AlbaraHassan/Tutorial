@@ -7,12 +7,11 @@ const createTokens = (user) => {
 
 const validateToken = (req, res, next) => {
     try {
-        const accessToken = req.cookies["access-token"]
-        if (!accessToken) throw Error("Not authenticated")
+        if (!req.headers.authorization) throw Error("Not authenticated")
+        const accessToken = req.headers.authorization.split(" ")[ 1 ]
 
         const validToken = verify(accessToken, "topsecret")
         if (validToken) {
-            req.authenticated = true
             return next()
         }
     } catch (e) {

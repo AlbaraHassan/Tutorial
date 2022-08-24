@@ -17,12 +17,8 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     try {
         const { body } = req;
-        const { accessToken, username, id } = await userServiceHandler.login(body)
-        res.cookie("access-token", accessToken, {
-            maxAge: 864000000,
-            httpOnly: true
-        })
-        return res.send({ "username": username, "id": id })
+        const accessToken = await userServiceHandler.login(body)
+        return res.send(accessToken)
     }
     catch (e) {
         return res.status(500).send({ "msg": e.message });
@@ -41,11 +37,22 @@ const updateUser = async (req, res) => {
 }
 
 
+const getUser = async (req, res) => {
+    try {
+        const authorization = req.headers.authorization.split(' ')[ 1 ]
+        const user = await userServiceHandler.getUser(authorization)
+        return res.send(user)
+    } catch (e) {
+        return res.status(500).send({ "msg": "Not authenticated" });
+    }
+}
+
 
 const userControllerHandler = {
     register,
     login,
-    updateUser
+    updateUser,
+    getUser
 
 }
 

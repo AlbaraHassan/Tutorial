@@ -8,7 +8,6 @@ import express from "express"
 import cors from "cors"
 import "dotenv/config"
 import mongoose from "mongoose"
-import cookieParser from "cookie-parser"
 
 
 
@@ -29,8 +28,6 @@ const init = () => {
     server.use(express.json())
 
     server.use(cors(corsOptions))
-
-    server.use(cookieParser())
 
     server.use("/category", categoryRouter)
 
