@@ -35,7 +35,9 @@ function Login() {
         <div className='w3-panel w3-card-4 w3-center  w3-display-middle w3-padding-64 w3-animate-opacity'>
             <div className="text">
                 {isSuccess ? <div className='w3-pale-green w3-round-xxlarge w3-border w3-animate-top'><p>Welcome {username}</p></div> : <></>}
-                {isSuccess === false ? <div className='w3-pale-red w3-border w3-round-xxlarge w3-animate-top'> <p>Wrong Username and Password Combination</p></div> : <></>}
+                {isSuccess === false ? <div className='w3-pale-red w3-border w3-round-xxlarge w3-animate-top'>
+                    <p>Wrong Username and Password Combination</p>
+                    </div> : <></>}
                 <p>Enter Username:</p>
                 <input onChange={(e) => { setUsername(e.target.value) }}></input>
                 <p>Enter Password:</p>

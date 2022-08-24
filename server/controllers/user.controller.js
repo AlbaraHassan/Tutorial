@@ -10,7 +10,7 @@ const register = async (req, res) => {
         const user = await userServiceHandler.register(body)
         return res.send(user)
     } catch (e) {
-        return res.send({ "msg": e.message }).status(500);
+        return res.status(500).send({ "msg": e.message });
     }
 }
 
@@ -25,7 +25,7 @@ const login = async (req, res) => {
         return res.send({ "username": username, "id": id })
     }
     catch (e) {
-        return res.send({ "msg": e.message }).status(500);
+        return res.status(500).send({ "msg": e.message });
     }
 }
 
@@ -36,7 +36,7 @@ const updateUser = async (req, res) => {
         return res.send(user)
     }
     catch (e) {
-        return res.send({ "msg": e.message }).status(500);
+        return res.status(500).send({ "msg": e.message });
     }
 }
 
