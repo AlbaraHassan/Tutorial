@@ -1,9 +1,9 @@
-import { Routes, Route, Link, useNavigate } from "react-router-dom";
-import Cart from "./components/Cart";
+import { Routes, Route } from "react-router-dom";
 import Redirect from "./components/Redirect";
 import MUIRegister from "./components/MUIRegister";
 import MUILogin from "./components/MUILogin"
 import MUIItems from "./components/MUIItems";
+import MUICart from "./components/MUICart";
 
 
 function App() {
@@ -14,7 +14,7 @@ function App() {
         <Routes>
             <Route path="" element={<Redirect />} />
             <Route path="items" element={<MUIItems />} />
-            <Route path="cart" element={<Cart />} />
+            <Route path="cart" element={<MUICart />} />
             <Route path="register" element={<MUIRegister />} />
             <Route path="login" element={<MUILogin />} />
         </Routes>

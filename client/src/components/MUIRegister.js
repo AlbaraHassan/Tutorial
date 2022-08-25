@@ -5,7 +5,7 @@ import MuiAlert from "@mui/material/Alert"
 import { Button, Typography } from "@mui/material"
 import { Container } from "@mui/system"
 import axios from "axios"
-import { useState, forwardRef } from "react"
+import { useState, forwardRef, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 
 
@@ -57,12 +57,22 @@ function MUIRegister() {
     })
 
 
+    useEffect(() => {
+
+        if (localStorage.getItem("accessToken")) {
+            navigate("/items")
+            return
+        }
+
+    }, [])
+
+
     return (
         <>
             <Container maxWidth="md" sx={{ backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20 }}>
                 <Typography variant="h3" color="initial" sx={{ marginBottom: 10 }} align="center">Register</Typography>
                 <form onSubmit={formik.handleSubmit}>
-                    <FormControl sx={{ width: "100%", alignItems: "center" }} justifyContent="center"  >
+                    <FormControl sx={{ width: "100%", alignItems: "center" }} >
                         <TextField
                             id="username"
                             name="username"

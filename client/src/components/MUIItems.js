@@ -5,15 +5,14 @@ import { useNavigate } from 'react-router-dom'
 import { addCart, cartClear, removeFromCartById } from '../features/cart'
 import { getAll } from '../features/items'
 import Grid from '@mui/material/Grid'
-import { AppBar, Button, Card, CardActions, CardContent, IconButton, Menu, MenuItem, Paper, Toolbar, Typography } from '@mui/material'
+import { AppBar, Button, Card, CardActions, CardContent, Typography } from '@mui/material'
 import { loginUser } from '../features/user'
 import NavBar from './NavBar'
-
+import { arrayAdd, arrayRemove } from "../features/array"
+import { add, subtract } from '../features/counter'
 
 
 function MUIItems() {
-    const [ isLogged, setIsLogged ] = useState(false)
-
     const items = useSelector((state) => state.items.value)
     const cart = useSelector((state) => state.cart.value)
     const user = useSelector((state) => state.user.value)
@@ -27,21 +26,17 @@ function MUIItems() {
 
 
         dispatch(addCart(obj))
+        dispatch(arrayAdd(obj._id))
+        dispatch(add([obj._id, obj.price]))
     }
 
     const handleRemove = (obj) => {
         dispatch(removeFromCartById(obj))
     }
 
-    const login = async () => {
-        navigate("/login")
-    }
 
-    const signout = async () => {
-        localStorage.removeItem("user")
-        setIsLogged(false)
-        dispatch(cartClear())
-    }
+
+
 
 
 
@@ -67,19 +62,20 @@ function MUIItems() {
             return
         }
 
-        fetchUser()
+        if (JSON.stringify(user) === JSON.stringify({})) fetchUser() //Fix for sending unneeded requests
 
 
         if (items.length === 0) fetchAllItems()
 
     }, [])
 
-    
+
 
     return (<>
-    
-        <NavBar user={user}/>
 
+        <NavBar user={user} />
+
+        <Typography variant="h3" color="text.secondary" align={"center"} margin={5}>Store</Typography>
         <Grid container spacing={0} columns={{ xs: 2, sm: 6, md: 9, lg: 15 }} sx={{ backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600 }}>
             {items.map((el) => {
                 return <Grid item xs={3} key={el._id}>
