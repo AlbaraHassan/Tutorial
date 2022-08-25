@@ -15,6 +15,7 @@ const cartCounterSlice = createSlice({
                 }
             }
             state.value = [ ...state.value, obj ]
+            localStorage.setItem("counter", JSON.stringify(state.value))
         },
         subtract: (state, action) => {
             let id = action.payload[ 0 ]
@@ -22,7 +23,8 @@ const cartCounterSlice = createSlice({
             for (let i of state.value) {
                 if (i[ "id" ] === id) {
                     if (i[ "price" ] === 0) {
-                       state.value = state.value.filter((el)=>el["price"] !== 0)
+                        state.value = state.value.filter((el) => el[ "price" ] !== 0)
+                        localStorage.setItem("counter", JSON.stringify(state.value))
                         return
                     }
                     i[ "price" ] -= price
@@ -30,13 +32,25 @@ const cartCounterSlice = createSlice({
 
                 }
             }
+
+
         },
-        counterClear: (store) => {
-            store.value  = []
+        counterClear: (state) => {
+            state.value = []
+            localStorage.setItem("counter", JSON.stringify(state.value))
+
         },
+        setCounter: (state, action) => {
+            state.value = action.payload
+        },
+        remove: (state, action) => {
+            state.value = state.value.filter((el) => JSON.stringify(el) !== JSON.stringify(action.payload))
+            localStorage.setItem("counter", JSON.stringify(state.value))
+
+        }
     }
 })
 
-export const { add, subtract, counterClear } = cartCounterSlice.actions
+export const { add, subtract, counterClear, setCounter, remove } = cartCounterSlice.actions
 
 export default cartCounterSlice.reducer

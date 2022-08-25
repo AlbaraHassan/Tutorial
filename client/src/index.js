@@ -13,14 +13,13 @@ import { BrowserRouter } from "react-router-dom";
 import userReducer from "./features/user"
 
 
-
 const store = configureStore({
     reducer: {
         counter: counterReducer,
         array: arrayReducer,
         items: itemsReducer,
         cart: cartReducer,
-        user: userReducer
+        user: userReducer,
     },
 
 })

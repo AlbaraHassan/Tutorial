@@ -4,9 +4,9 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../features/user'
 import NavBar from './NavBar'
-import { add, subtract, counterClear } from '../features/counter'
-import { removeFromCart, cartClear } from "../features/cart"
-import { arrayAdd, arrayRemove, arrayClear } from "../features/array"
+import { add, subtract, counterClear, setCounter } from '../features/counter'
+import { removeFromCart, cartClear, setCart } from "../features/cart"
+import { arrayAdd, arrayRemove, arrayClear, setArray } from "../features/array"
 import { Button, Card, CardActions, CardContent, Grid, Snackbar, Typography } from '@mui/material'
 import MuiAlert from '@mui/material/Alert';
 
@@ -116,23 +116,37 @@ function MUICart() {
 
     }
 
+    const localData = async () => {
+        if (localStorage.getItem("data")) {
+            dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
+        }
+        if (localStorage.getItem("array")) {
+            dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
+        }
+        if (localStorage.getItem("counter")) {
+            dispatch(setCounter(JSON.parse(localStorage.getItem("counter"))))
+        }
+        let sum = 0
+        for(let i of JSON.parse(localStorage.getItem("counter"))){
+            sum+=i.price
+        }
+        setTotal(sum)
+    }
+
     useEffect(() => {
         if (!localStorage.getItem("accessToken")) {
             navigate("/login")
             return
         }
         if (JSON.stringify(user) === JSON.stringify({})) fetchUser()
-        let sum = 0
-        for (let i of counter) {
-            sum += i.price
-        }
-        setTotal(sum)
+        localData()
+
+
     }, [])
 
 
     return (<>
         <NavBar user={user} />
-
         <Typography variant="h3" color="text.secondary" align={"center"} margin={5}>Cart</Typography>
         {cart.length === 0 ? <Typography variant="h4" color="text.secondary">Cart is empty</Typography> : <></>}
         {cart.length !== 0 ? <><Grid container spacing={0} columns={{ xs: 2, sm: 6, md: 9, lg: 15 }} sx={{ backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600 }}>

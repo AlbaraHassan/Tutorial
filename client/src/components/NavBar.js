@@ -118,7 +118,7 @@ function NavBar({ user }) {
                             onClick={() => { navigate("/cart") }}
                             color="inherit"
                         >
-                            <StyledBadge badgeContent={cart.length}>
+                            <StyledBadge badgeContent={JSON.parse(localStorage.getItem("data"))?JSON.parse(localStorage.getItem("data")).length:0}>
                                 <ShoppingCartIcon />
                             </StyledBadge>
                         </IconButton>
