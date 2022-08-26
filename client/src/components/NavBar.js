@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { cartClear } from '../features/cart';
 import { styled } from '@mui/system';
 import BadgeUnstyled, { badgeUnstyledClasses } from '@mui/base/BadgeUnstyled';
+import { arrayClear } from '../features/array';
+import { counterClear } from '../features/counter';
 
 
 
@@ -103,8 +105,10 @@ function NavBar({ user }) {
                         >
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
                             <MenuItem onClick={() => {
-                                localStorage.removeItem("accessToken")
+                                localStorage.clear()
                                 dispatch(cartClear())
+                                dispatch(arrayClear())
+                                dispatch(counterClear())
                                 navigate("/login")
                             }}>Sign Out</MenuItem>
                         </Menu>

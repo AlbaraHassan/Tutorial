@@ -110,6 +110,9 @@ function MUICart() {
         dispatch(counterClear())
         dispatch(arrayClear())
         dispatch(cartClear())
+        localStorage.removeItem("data")
+        localStorage.removeItem("counter")
+
         setTimeout(() => {
             navigate("/items")
         }, 3000);
@@ -117,15 +120,7 @@ function MUICart() {
     }
 
     const localData = async () => {
-        if (localStorage.getItem("data")) {
-            dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
-        }
-        if (localStorage.getItem("array")) {
-            dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
-        }
-        if (localStorage.getItem("counter")) {
-            dispatch(setCounter(JSON.parse(localStorage.getItem("counter"))))
-        }
+        
         let sum = 0
         for(let i of JSON.parse(localStorage.getItem("counter"))){
             sum+=i.price

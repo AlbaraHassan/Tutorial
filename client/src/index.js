@@ -4,11 +4,11 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { configureStore } from "@reduxjs/toolkit"
-import { Provider } from "react-redux"
-import counterReducer from "./features/counter"
-import arrayReducer from "./features/array"
+import { Provider, useDispatch } from "react-redux"
+import counterReducer, { setCounter } from "./features/counter"
+import arrayReducer, { setArray } from "./features/array"
 import itemsReducer from "./features/items"
-import cartReducer from "./features/cart"
+import cartReducer, { setCart } from "./features/cart"
 import { BrowserRouter } from "react-router-dom";
 import userReducer from "./features/user"
 
@@ -24,7 +24,7 @@ const store = configureStore({
 
 })
 
-store.subscribe(()=>{
+store.subscribe( () => {
     console.log("State Updated");
     console.log(store.getState());
 })
