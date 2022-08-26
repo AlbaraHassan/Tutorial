@@ -20,9 +20,9 @@ function App() {
         if (localStorage.getItem("data")) {
             dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
         }
-        // if (localStorage.getItem("array")) {
-        //     dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
-        // }
+        if (localStorage.getItem("array")) {
+            dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
+        }
         if (localStorage.getItem("counter")) {
             dispatch(setCounter(JSON.parse(localStorage.getItem("counter"))))
         }

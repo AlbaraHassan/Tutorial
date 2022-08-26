@@ -49,7 +49,7 @@ const StyledBadge = styled(BadgeUnstyled)`
 `;
 
 
-function NavBar({user}) {
+const NavBar = ({user}) => {
     const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
     const cart = useSelector((state) => state.cart.value)
@@ -87,7 +87,7 @@ function NavBar({user}) {
                             onClick={handleMenu}
                             color="inherit"
                         >
-                            <Typography sx={{fontSize: 14, marginRight: 2}}>{user.username}</Typography>
+                            <Typography sx={{fontSize: 14, marginRight: 2}}>{user?user.username:""}</Typography>
                             <AccountCircle/>
                         </IconButton>
                         <Menu
@@ -139,6 +139,6 @@ function NavBar({user}) {
             </Toolbar>
         </AppBar>
     )
-}
+};
 
 export default NavBar

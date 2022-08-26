@@ -12,7 +12,7 @@ import { arrayAdd, arrayRemove } from "../features/array"
 import { add, remove, subtract } from '../features/counter'
 
 
-function MUIItems() {
+const MUIItems = () => {
     const items = useSelector((state) => state.items.value)
     const cart = useSelector((state) => state.cart.value)
     const user = useSelector((state) => state.user.value)
@@ -67,7 +67,7 @@ function MUIItems() {
 
 
 
-        if (JSON.stringify(user) === JSON.stringify({})) fetchUser() //Fix for sending unneeded requests
+        if (!user) fetchUser() //Fix for sending unneeded requests
 
 
         if (items.length === 0) fetchAllItems()
@@ -78,7 +78,7 @@ function MUIItems() {
 
     return (<>
 
-        <NavBar user={user} />
+        <NavBar user={user?user:""} />
 
         <Typography variant="h3" color="text.secondary" align={"center"} margin={5}>Store</Typography>
         <Grid container spacing={0} columns={{ xs: 2, sm: 6, md: 9, lg: 15 }} sx={{ backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600 }}>
@@ -110,6 +110,6 @@ function MUIItems() {
         </Grid>
     </>
     )
-}
+};
 
 export default MUIItems

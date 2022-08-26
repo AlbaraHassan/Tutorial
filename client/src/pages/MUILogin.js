@@ -14,7 +14,7 @@ const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function MUILogin() {
+const MUILogin = () => {
 
     const [ isSuccess, setIsSuccess ] = useState(false)
     const [ open, setOpen ] = useState(false)
@@ -121,7 +121,7 @@ function MUILogin() {
             <Snackbar open={isSuccess} anchorOrigin={{ vertical: "top", horizontal: "center" }}
                 autoHideDuration={6000} onClose={() => { setIsSuccess(false) }}>
                 <Alert onClose={() => { setIsSuccess(false) }} severity="success" sx={{ width: '100%' }}>
-                    {`Welcome ${user.username}`}
+                    {`Welcome ${user?user.username:""}`}
                 </Alert>
             </Snackbar>
 
@@ -130,6 +130,6 @@ function MUILogin() {
         </>
     )
 
-}
+};
 
 export default MUILogin

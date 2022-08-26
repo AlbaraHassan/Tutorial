@@ -13,7 +13,7 @@ const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-function MUIRegister() {
+const MUIRegister = () => {
 
     const [ isSuccess, setIsSuccess ] = useState()
     const [ open, setOpen ] = useState(false)
@@ -61,7 +61,6 @@ function MUIRegister() {
 
         if (localStorage.getItem("accessToken")) {
             navigate("/items")
-            return
         }
 
     }, [])
@@ -69,7 +68,7 @@ function MUIRegister() {
 
     return (
         <>
-            <Container maxWidth="md" sx={{ backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20 }}>
+            <Container component={"div"} maxWidth="md" sx={{ backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20 }}>
                 <Typography variant="h3" color="initial" sx={{ marginBottom: 10 }} align="center">Register</Typography>
                 <form onSubmit={formik.handleSubmit}>
                     <FormControl sx={{ width: "100%", alignItems: "center" }} >
@@ -131,6 +130,6 @@ function MUIRegister() {
         </>
     )
 
-}
+};
 
 export default MUIRegister

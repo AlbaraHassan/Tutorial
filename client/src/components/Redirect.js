@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, {useEffect} from 'react'
+import {useNavigate} from 'react-router-dom'
 
-function Redirect() {
+const Redirect = () => {
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -10,8 +10,8 @@ function Redirect() {
 
     }, [])
     return (
-        <div>Redirect</div>
+        <></>
     )
-}
+};
 
 export default Redirect

@@ -11,6 +11,7 @@ const cartCounterSlice = createSlice({
             for (let i of state.value) {
                 if (i[ "id" ] === id) {
                     i[ "price" ] += price
+                    localStorage.setItem("counter", JSON.stringify(state.value))
                     return
                 }
             }
