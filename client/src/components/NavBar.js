@@ -1,14 +1,14 @@
-import { AppBar, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material'
-import React, { useState } from 'react'
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'; import AccountCircle from '@mui/icons-material/AccountCircle';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { cartClear } from '../features/cart';
-import { styled } from '@mui/system';
-import BadgeUnstyled, { badgeUnstyledClasses } from '@mui/base/BadgeUnstyled';
-import { arrayClear } from '../features/array';
-import { counterClear } from '../features/counter';
-
+import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
+import React, {useState} from 'react'
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import {useNavigate} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
+import {cartClear} from '../features/cart';
+import {styled} from '@mui/system';
+import BadgeUnstyled, {badgeUnstyledClasses} from '@mui/base/BadgeUnstyled';
+import {arrayClear} from '../features/array';
+import {counterClear} from '../features/counter';
 
 
 const StyledBadge = styled(BadgeUnstyled)`
@@ -49,8 +49,8 @@ const StyledBadge = styled(BadgeUnstyled)`
 `;
 
 
-function NavBar({ user }) {
-    const [ anchorEl, setAnchorEl ] = useState(null)
+function NavBar({user}) {
+    const [anchorEl, setAnchorEl] = useState(null)
     const navigate = useNavigate()
     const cart = useSelector((state) => state.cart.value)
     const dispatch = useDispatch()
@@ -67,10 +67,12 @@ function NavBar({ user }) {
     return (
 
 
-        <AppBar position="static" sx={{ borderRadius: 10, marginTop: 2 }}>
+        <AppBar position="static" sx={{borderRadius: 10, marginTop: 2}}>
             <Toolbar>
 
-                <Typography variant="h4" component="div" onClick={() => { navigate("/items") }} sx={{ flexGrow: 1 }}>
+                <Typography variant="h4" component="div" onClick={() => {
+                    navigate("/items")
+                }} sx={{flexGrow: 1}}>
                     Store
                 </Typography>
 
@@ -85,8 +87,8 @@ function NavBar({ user }) {
                             onClick={handleMenu}
                             color="inherit"
                         >
-                            <Typography sx={{ fontSize: 14, marginRight: 2 }}>{user.username}</Typography>
-                            <AccountCircle />
+                            <Typography sx={{fontSize: 14, marginRight: 2}}>{user.username}</Typography>
+                            <AccountCircle/>
                         </IconButton>
                         <Menu
                             id="menu-appbar"
@@ -103,7 +105,9 @@ function NavBar({ user }) {
                             open={Boolean(anchorEl)}
                             onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
+                            <MenuItem onClick={() => {
+                                navigate("/profile")
+                            }}>Profile</MenuItem>
                             <MenuItem onClick={() => {
                                 localStorage.clear()
                                 dispatch(cartClear())
@@ -119,11 +123,14 @@ function NavBar({ user }) {
                             aria-label="account of current user"
                             aria-controls="menu-appbar"
                             aria-haspopup="true"
-                            onClick={() => { navigate("/cart") }}
+                            onClick={() => {
+                                navigate("/cart")
+                            }}
                             color="inherit"
                         >
-                            <StyledBadge badgeContent={JSON.parse(localStorage.getItem("data"))?JSON.parse(localStorage.getItem("data")).length:0}>
-                                <ShoppingCartIcon />
+                            <StyledBadge
+                                badgeContent={JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")).length : 0}>
+                                <ShoppingCartIcon/>
                             </StyledBadge>
                         </IconButton>
                     </div>

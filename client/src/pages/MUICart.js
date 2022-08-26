@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../features/user'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import { add, subtract, counterClear, setCounter } from '../features/counter'
 import { removeFromCart, cartClear, setCart } from "../features/cart"
 import { arrayAdd, arrayRemove, arrayClear, setArray } from "../features/array"
@@ -142,9 +142,12 @@ function MUICart() {
 
     return (<>
         <NavBar user={user} />
+
+
         <Typography variant="h3" color="text.secondary" align={"center"} margin={5}>Cart</Typography>
         {cart.length === 0 ? <Typography variant="h4" color="text.secondary">Cart is empty</Typography> : <></>}
-        {cart.length !== 0 ? <><Grid container spacing={0} columns={{ xs: 2, sm: 6, md: 9, lg: 15 }} sx={{ backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600 }}>
+        {cart.length !== 0 ? <>
+            <Grid container spacing={0} columns={{ xs: 2, sm: 6, md: 9, lg: 15 }} sx={{ backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600 }}>
             {cart.map((el) => {
                 return <Grid item xs={3} key={el._id}>
                     <Grid container justifyContent="center" spacing={0}>

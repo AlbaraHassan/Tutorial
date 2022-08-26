@@ -52,7 +52,7 @@ const updateUser = async (id, data) => {
     const objectToUpdate = { "cart": newCart };
     console.log(newCart);
 
-    return await User.updateOne({
+    return User.updateOne({
         _id: mongoose.Types.ObjectId(id)
     }, {
         $set: {

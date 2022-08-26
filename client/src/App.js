@@ -1,20 +1,21 @@
-import { Routes, Route } from "react-router-dom";
+import {Routes, Route} from "react-router-dom";
 import Redirect from "./components/Redirect";
-import MUIRegister from "./components/MUIRegister";
-import MUILogin from "./components/MUILogin"
-import MUIItems from "./components/MUIItems";
-import MUICart from "./components/MUICart";
-import { useDispatch } from "react-redux";
-import { setCart } from "./features/cart";
-import { setArray } from "./features/array";
-import { setCounter } from "./features/counter";
-import { useEffect, useState } from "react";
+import MUIRegister from "./pages/MUIRegister";
+import MUILogin from "./pages/MUILogin"
+import MUIItems from "./pages/MUIItems";
+import MUICart from "./pages/MUICart";
+import {useDispatch} from "react-redux";
+import {setCart} from "./features/cart";
+import {setArray} from "./features/array";
+import {setCounter} from "./features/counter";
+import {useEffect, useState} from "react";
+import MUIProfile from "./pages/MUIProfile";
 
 
 function App() {
 
     const dispatch = useDispatch()
-    
+
     const getLocal = () => {
         if (localStorage.getItem("data")) {
             dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
@@ -28,22 +29,21 @@ function App() {
     }
 
     useEffect(() => {
-      
-    getLocal()
-     
+
+        getLocal()
+
     }, [])
-    
 
 
     return (
         <Routes>
-            <Route path="" element={<Redirect />} />
-            <Route path="items" element={<MUIItems />} />
-            <Route path="cart" element={<MUICart />} />
-            <Route path="register" element={<MUIRegister />} />
-            <Route path="login" element={<MUILogin />} />
+            <Route path="" element={<Redirect/>}/>
+            <Route path="items" element={<MUIItems/>}/>
+            <Route path="cart" element={<MUICart/>}/>
+            <Route path="register" element={<MUIRegister/>}/>
+            <Route path="login" element={<MUILogin/>}/>
+            <Route path="profile" element={<MUIProfile/>}/>
         </Routes>
-
 
 
     );

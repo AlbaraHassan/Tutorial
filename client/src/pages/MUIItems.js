@@ -7,7 +7,7 @@ import { getAll } from '../features/items'
 import Grid from '@mui/material/Grid'
 import { AppBar, Button, Card, CardActions, CardContent, Typography } from '@mui/material'
 import { loginUser } from '../features/user'
-import NavBar from './NavBar'
+import NavBar from '../components/NavBar'
 import { arrayAdd, arrayRemove } from "../features/array"
 import { add, remove, subtract } from '../features/counter'
 
