@@ -1,9 +1,9 @@
 import mongoose from "mongoose"
 import User from "../models/user.model"
 import bcrypt from "bcrypt"
-import { createTokens } from "../middleware/JWT"
+import {createTokens} from "../middleware/JWT"
 import Cart from "../models/cart.model"
-import { verify } from "jsonwebtoken"
+import {verify} from "jsonwebtoken"
 
 
 const usernameValidator = async (username) => {
@@ -66,8 +66,7 @@ const updateUser = async (id, data) => {
 const getUser = async (authorization) => {
     const id = verify(authorization, "topsecret").id;
     console.log(id);
-    const user = await User.findById(id).populate("cart")
-    return user
+    return User.findById(id).populate("cart")
 }
 
 

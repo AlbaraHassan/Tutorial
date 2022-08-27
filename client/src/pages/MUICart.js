@@ -4,15 +4,29 @@ import {useDispatch, useSelector} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {loginUser} from '../features/user'
 import NavBar from '../components/NavBar'
-import {add, subtract, counterClear, setCounter} from '../features/counter'
-import {removeFromCart, cartClear, setCart} from "../features/cart"
-import {arrayAdd, arrayRemove, arrayClear, setArray} from "../features/array"
-import {Button, Card, CardActions, CardContent, Grid, Snackbar, Typography} from '@mui/material'
-import MuiAlert from '@mui/material/Alert';
+import {add, subtract, counterClear} from '../features/counter'
+import {removeFromCart, cartClear} from "../features/cart"
+import {arrayAdd, arrayRemove, arrayClear} from "../features/array"
+import {
+    Button, ButtonGroup,
+    Paper,
+    Snackbar, Table, TableBody,
+    TableCell,
+    TableContainer, TableHead, TableRow,
+    Typography
+} from '@mui/material'
+import MuiAlert from '@mui/material/Alert'
+import {Stack, styled} from "@mui/system"
+
 
 const Alert = React.forwardRef(function Alert(props, ref) {
-    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-});
+    return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
+})
+
+const Item = styled(Paper)(({theme}) => ({
+    padding: theme.spacing(1),
+    textAlign: 'center',
+}))
 
 
 const MUICart = () => {
@@ -51,7 +65,7 @@ const MUICart = () => {
     const cartSubtractHandler = (arr, rem) => {
         if (counter.length === 0) {
             dispatch(removeFromCart(rem))
-            console.log(rem);
+            console.log(rem)
             setTotal(0)
             return
         }
@@ -113,7 +127,7 @@ const MUICart = () => {
 
         setTimeout(() => {
             navigate("/items")
-        }, 3000);
+        }, 3000)
 
     }
 
@@ -145,49 +159,75 @@ const MUICart = () => {
             <Typography variant="h3" color="text.secondary" align={"center"} margin={5}>Cart</Typography>
             {cart.length === 0 ? <Typography variant="h4" color="text.secondary">Cart is empty</Typography> : <></>}
             {cart.length !== 0 ? <>
-                <Grid container spacing={0} columns={{xs: 2, sm: 6, md: 9, lg: 15}}
-                      sx={{backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600}}>
-                    {cart.map((el) => {
-                        return <Grid item xs={3} key={el._id}>
-                            <Grid container justifyContent="center" spacing={0}>
-                                <Card sx={{minWidth: 275, marginTop: 5, height: 230, backgroundColor: "#f0f8ff"}}>
-                                    <CardContent>
-                                        <Typography sx={{fontSize: 20}} color="text.primary" gutterBottom>
-                                            {el.name}
+                <TableContainer component={Paper}>
+                    <Table sx={{minWidth: 650}} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Item</TableCell>
+                                <TableCell align="center">Category</TableCell>
+                                <TableCell align="center">Subcategory</TableCell>
+                                <TableCell align="center">Price</TableCell>
+                                <TableCell align="center">Quantity</TableCell>
+                            </TableRow>
+                        </TableHead>
+                        <TableBody>
+                            {cart !== [] ? cart.map((row) => (
+                                <TableRow
+                                    key={row._id}
+                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                >
+                                    <TableCell component="th" scope="row">
+                                        {row.name}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Typography variant={"h5"}>
+                                            {row.category_id.name}
                                         </Typography>
-                                        <Typography variant="h5" component="div">
-                                            {el.price} $
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Typography variant={"h5"}>
+                                            {row.subcategory_id.name}
                                         </Typography>
-                                        <Typography sx={{mb: 1.5}} color="text.secondary">
-                                            {el.category_id.name} ---- {el.subcategory_id.name}
+                                    </TableCell>
+                                    <TableCell align="center">
+                                        <Typography variant={"h5"}>
+                                            {row.price}$
                                         </Typography>
+                                    </TableCell>
+                                    <TableCell align="center">{
+                                        counter.map((e) => {
+                                            if (e.id === row._id) return <div key={row._id}>
+                                                <Stack spacing={2} direction={"row"} component={"div"}>
+                                                    <Item>
+                                                        <Typography variant={"h3"}>
+                                                            {e.price / row.price}
+                                                        </Typography>
+                                                    </Item>
+                                                    <Item>
 
-                                        <Typography sx={{mb: 1.5}} color="text.secondary">
-                                            In Cart: {counter.map((e) => {
-                                            if (e.id === el._id) return `${e.price / el.price}`
-                                        })}
-                                        </Typography>
-                                    </CardContent>
-                                    <CardActions>
-                                        <Button size="small" variant="outlined" onClick={() => {
-                                            cartAddHandler([el._id, el.price])
-                                        }}>Add</Button>
+                                                        <ButtonGroup
+                                                            orientation="vertical"
+                                                            aria-label="vertical outlined button group"
+                                                        >
+                                                            <Button size="small" variant="outlined" onClick={() => {
+                                                                cartAddHandler([row._id, row.price])
+                                                            }}>⬆</Button>
 
+                                                            <Button size="small" variant="outlined" onClick={() => {
+                                                                cartSubtractHandler([row._id, row.price], row._id)
+                                                            }}>⬇</Button>
 
-                                        <Button size="small" sx={{color: "red", borderColor: "red"}} variant="outlined"
-                                                onClick={() => {
-                                                    cartSubtractHandler([el._id, el.price], el._id)
-                                                }}>Subtract</Button>
-
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        </Grid>
-
-                    })}
-
-
-                </Grid>
+                                                        </ButtonGroup>
+                                                    </Item>
+                                                </Stack>
+                                            </div>
+                                        })
+                                    }</TableCell>
+                                </TableRow>
+                            )) : ""}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
 
                 <Typography variant="h4" color="initial" marginTop={5} align={"center"}>Total Price: {total} $ <Button
                     size="large" onClick={handleCheckout} variant="contained">Purchase</Button></Typography>
@@ -225,6 +265,6 @@ const MUICart = () => {
 
         </>
     )
-};
+}
 
 export default MUICart

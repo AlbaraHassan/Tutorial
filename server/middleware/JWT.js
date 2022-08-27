@@ -1,8 +1,7 @@
-import { sign, verify } from "jsonwebtoken"
+import {sign, verify} from "jsonwebtoken"
 
 const createTokens = (user) => {
-    const accessToken = sign({ username: user.username, id: user._id }, "topsecret")
-    return accessToken
+    return sign({username: user.username, id: user._id}, "topsecret")
 }
 
 const validateToken = (req, res, next) => {
