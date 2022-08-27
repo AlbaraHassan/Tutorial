@@ -1,13 +1,23 @@
 import React, {useEffect} from 'react'
-import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {loginUser} from "../features/user";
-import {Container} from "@mui/system";
-import {Avatar, Paper, Typography} from "@mui/material";
-import NavBar from "../components/NavBar";
-import Grid from "@mui/material/Grid";
-import {ShoppingCart} from "@mui/icons-material";
-
+import axios from "axios"
+import {useDispatch, useSelector} from "react-redux"
+import {loginUser} from "../features/user"
+import {Container} from "@mui/system"
+import {
+    Avatar,
+    Paper,
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography
+} from "@mui/material"
+import NavBar from "../components/NavBar"
+import Grid from "@mui/material/Grid"
+import {ShoppingCart} from "@mui/icons-material"
+import TaskAltIcon from '@mui/icons-material/TaskAlt'
 
 const MUIProfile = () => {
     const user = useSelector((state) => state.user.value)
@@ -24,8 +34,8 @@ const MUIProfile = () => {
 
     const sum = (arr) => {
         let sum = 0
-        for(let i of arr){
-            sum+=i.totalPrice
+        for (let i of arr) {
+            sum += i.totalPrice
         }
         return sum
     }
@@ -72,8 +82,8 @@ const MUIProfile = () => {
                                         </Grid>
                                         <Grid item xs={1}>
                                             <Typography variant={"h5"}>
-                                                <ShoppingCart sx={{fontSize: 80}}/>
-                                                {user ? user.cart.length : ""} Purchases
+                                                <TaskAltIcon sx={{fontSize: 80}}/>
+                                                {user ? user.cart.length : ""}
                                             </Typography>
                                         </Grid>
 
@@ -91,14 +101,43 @@ const MUIProfile = () => {
                             </Grid>
 
                             <Grid item>
-                                <Paper
-                                    sx={{
-                                        height: 500,
-                                        width: 1000,
-                                        backgroundColor: (theme) =>
-                                            theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-                                    }}
-                                />
+                                <TableContainer component={Paper} sx={{ maxHeight: 740 }}>
+                                    <Table sx={{minWidth: 650}} aria-label="simple table" stickyHeader>
+                                        <TableHead>
+                                            <TableRow>
+                                                <TableCell align={"center"}>
+                                                    <Typography variant={"h4"}>
+                                                        Items Purchased
+                                                    </Typography>
+                                                </TableCell>
+                                                <TableCell align="center">
+                                                    <Typography variant={"h4"}>
+                                                        Total Price
+                                                    </Typography>
+                                                </TableCell>
+                                            </TableRow>
+                                        </TableHead>
+                                        <TableBody>
+                                            {user ? user.cart.map((row) => (
+                                                <TableRow
+                                                    key={row._id}
+                                                    sx={{'&:last-child td, &:last-child th': {border: 0}}}
+                                                >
+                                                    <TableCell align={"center"} scope="row">
+                                                        <Typography variant={"h5"}>
+                                                            {row.item.length}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <Typography variant={"h5"}>
+                                                            {row.totalPrice}$
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                            )) : ""}
+                                        </TableBody>
+                                    </Table>
+                                </TableContainer>
                             </Grid>
 
                         </Grid>
@@ -110,7 +149,7 @@ const MUIProfile = () => {
         </>
     )
 
-};
+}
 
 
 export default MUIProfile

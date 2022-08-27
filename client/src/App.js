@@ -16,15 +16,15 @@ function App() {
 
     const dispatch = useDispatch()
 
-    const getLocal = () => {
+    const getLocal = async () => {
         if (localStorage.getItem("data")) {
-            dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
+            await dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
         }
         if (localStorage.getItem("array")) {
-            dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
+            await dispatch(setArray(JSON.parse(localStorage.getItem("array"))))
         }
         if (localStorage.getItem("counter")) {
-            dispatch(setCounter(JSON.parse(localStorage.getItem("counter"))))
+            await dispatch(setCounter(JSON.parse(localStorage.getItem("counter"))))
         }
     }
 
