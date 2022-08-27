@@ -69,39 +69,56 @@ const MUIProfile = () => {
                                             theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                                     }}
                                 >
-                                    <Grid container spacing={30}>
-                                        <Grid item xs={0.0000001}>
-                                            <Typography variant={"h4"}>
-                                                <Avatar sx={{
-                                                    height: 100,
-                                                    width: 100,
-                                                    marginBottom: 2,
-                                                }}/>
-                                                {user ? user.username : ""}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid item xs={1}>
-                                            <Typography variant={"h5"}>
-                                                <TaskAltIcon sx={{fontSize: 80}}/>
-                                                {user ? user.cart.length : ""}
-                                            </Typography>
-                                        </Grid>
+                                    <Typography variant={"h4"}>
+                                        <Avatar sx={{
+                                            height: 100,
+                                            width: 100,
+                                            marginBottom: 2,
+                                        }}/>
+                                        {user ? user.username : ""}
+                                    </Typography>
 
 
-                                        <Grid item xs={1}>
-                                            <Typography variant={"h5"}>
-                                                <ShoppingCart sx={{fontSize: 80}}/>
-                                                {user ? sum(user.cart) : ""}$
-                                            </Typography>
-                                        </Grid>
+                                    <TableContainer component={Paper} sx={{marginTop: 15}}>
+                                        <Table sx={{minWidth: 200}}>
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell align="center">
+                                                        <Typography variant={"h5"}>
+                                                            Total Number Of Orders
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <Typography variant={"h5"}>
+                                                            Total Amount Payed
+                                                        </Typography>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
 
+                                                <TableRow>
+                                                    <TableCell align="center">
+                                                        <Typography variant={"h4"}>
+                                                            {user ? user.cart.length : ""}
+                                                        </Typography>
+                                                    </TableCell>
+                                                    <TableCell align="center">
+                                                        <Typography variant={"h4"}>
+                                                            {user ? sum(user.cart) : ""}$
+                                                        </Typography>
+                                                    </TableCell>
 
-                                    </Grid>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+
                                 </Paper>
                             </Grid>
 
                             <Grid item>
-                                <TableContainer component={Paper} sx={{ maxHeight: 740 }}>
+                                <TableContainer component={Paper} sx={{maxHeight: 740}}>
                                     <Table sx={{minWidth: 650}} aria-label="simple table" stickyHeader>
                                         <TableHead>
                                             <TableRow>

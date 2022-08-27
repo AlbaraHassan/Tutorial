@@ -75,7 +75,7 @@ const MUICart = () => {
 
         for (let i of counter) {
 
-            if (i["id"] === arr[0] && i["price"] === 0) {
+            if (i["id"] === arr[0] && i["price"] === arr[1]) {
                 dispatch(removeFromCart(rem))
             } else if (i["id"] === arr[0]) setTotal(total - arr[1])
 
@@ -84,8 +84,8 @@ const MUICart = () => {
     }
 
     const handleCheckout = async () => {
-        if (counter.length === 0) {
-            setError("You did not specify the quantity")
+        if (counter.length === 0 || total === 0) {
+            setError("Invalid Amount")
             setIsOk(false)
             return
         }

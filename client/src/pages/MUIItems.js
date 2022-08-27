@@ -72,16 +72,16 @@ const MUIItems = () => {
                 Store
             </Typography>
             <Grid container spacing={0} columns={{xs: 2, sm: 6, md: 9, lg: 15}}
-                  sx={{backgroundColor: "whitesmoke", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600}}>
+                  sx={{backgroundColor: "#edf6f9", borderRadius: 10, padding: 5, marginTop: 5, minHeight: 600}}>
                 {items.map((el) => {
                     return <Grid item xs={3} key={el._id}>
                         <Grid container justifyContent="center" spacing={0}>
-                            <Card sx={{minWidth: 275, marginTop: 5, height: 200, backgroundColor: "#f0f8ff"}}>
+                            <Card sx={{minWidth: 275, marginTop: 5, height: 200, backgroundColor: "#d5bdaf"}}>
                                 <CardContent>
-                                    <Typography sx={{fontSize: 20}} color="text.primary" gutterBottom>
+                                    <Typography sx={{fontSize: 20}} color="white" gutterBottom>
                                         {el.name}
                                     </Typography>
-                                    <Typography variant="h5" component="div">
+                                    <Typography variant="h5" component="div" color={"#006d77"}>
                                         {el.price} $
                                     </Typography>
                                     <Typography sx={{mb: 1.5}} color="text.secondary">
@@ -89,7 +89,7 @@ const MUIItems = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    {!cart.includes(el) ? <Button size="small" variant="outlined" onClick={() => {
+                                    {!cart.includes(el) ? <Button size="small" variant="outlined"sx={{borderColor:"#006d77", color:"#006d77"}} onClick={() => {
                                             handleCart(el)
                                         }}>
                                             Add To Cart

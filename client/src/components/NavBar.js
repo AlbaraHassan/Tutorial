@@ -33,7 +33,7 @@ const StyledBadge = styled(BadgeUnstyled)`
     line-height: 20px;
     white-space: nowrap;
     text-align: center;
-    background: #07f;
+    background: #f72585;
     border-radius: 10px;
     box-shadow: 0 0 0 1px #fff;
     position: absolute;
@@ -67,7 +67,7 @@ const NavBar = ({user}) => {
     return (
 
 
-        <AppBar position="static" sx={{borderRadius: 10, marginTop: 2}}>
+        <AppBar position="static" sx={{borderRadius: 10, marginTop: 2, backgroundColor:"#d5bdaf"}}>
             <Toolbar>
 
                 <Typography variant="h4" component="div" onClick={() => {
@@ -129,7 +129,9 @@ const NavBar = ({user}) => {
                             color="inherit"
                         >
                             <StyledBadge
-                                badgeContent={JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")).length : 0}>
+                                badgeContent={JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")).length : 0}
+
+                            >
                                 <ShoppingCartIcon/>
                             </StyledBadge>
                         </IconButton>

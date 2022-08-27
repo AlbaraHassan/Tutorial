@@ -15,7 +15,6 @@ import MUIProfile from "./pages/MUIProfile";
 function App() {
 
     const dispatch = useDispatch()
-
     const getLocal = async () => {
         if (localStorage.getItem("data")) {
             await dispatch(setCart(JSON.parse(localStorage.getItem("data"))))
