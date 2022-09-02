@@ -1,11 +1,11 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
 const ItemSchema = new Schema({
     name: {
         type: String,
         required: true,
         unique: true
-    }, 
+    },
     category_id: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -17,10 +17,6 @@ const ItemSchema = new Schema({
         ref: 'Subcategory'
     },
     price: {
-        type: Number,
-        required: true,
-    },
-    quantity: {
         type: Number,
         required: true,
     }

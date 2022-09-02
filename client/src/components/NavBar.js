@@ -9,7 +9,7 @@ import {styled} from '@mui/system';
 import BadgeUnstyled, {badgeUnstyledClasses} from '@mui/base/BadgeUnstyled';
 import {arrayClear} from '../features/array';
 import {counterClear} from '../features/counter';
-
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 const StyledBadge = styled(BadgeUnstyled)`
   box-sizing: border-box;
@@ -67,7 +67,7 @@ const NavBar = ({user}) => {
     return (
 
 
-        <AppBar position="static" sx={{borderRadius: 10, marginTop: 2, backgroundColor:"#d5bdaf"}}>
+        <AppBar position="static" sx={{borderRadius: 10, marginTop: 2, backgroundColor: "#d5bdaf"}}>
             <Toolbar>
 
                 <Typography variant="h4" component="div" onClick={() => {
@@ -76,65 +76,68 @@ const NavBar = ({user}) => {
                     Store
                 </Typography>
 
+                <IconButton
+                    size="large"
+                    aria-label="account of current user"
+                    aria-controls="menu-appbar"
+                    aria-haspopup="true"
+                    onClick={handleMenu}
+                    color="inherit"
+                >
+                    <Typography sx={{fontSize: 14, marginRight: 2}}>{user ? user.username : ""}</Typography>
+                    <AccountCircle/>
+                </IconButton>
+                <Menu
+                    id="menu-appbar"
+                    anchorEl={anchorEl}
+                    anchorOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    keepMounted
+                    transformOrigin={{
+                        vertical: 'top',
+                        horizontal: 'right',
+                    }}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    {user ? (user.role === "user" ? <MenuItem onClick={() => {
+                        navigate("/profile")
+                    }}>Profile</MenuItem> : <MenuItem onClick={() => {
+                        navigate("/store")
+                    }}>Add Item</MenuItem>) : ""}
+
+                    <MenuItem onClick={() => {
+                        localStorage.clear()
+                        dispatch(cartClear())
+                        dispatch(arrayClear())
+                        dispatch(counterClear())
+                        navigate("/login")
+                    }}>Sign Out</MenuItem>
+                </Menu>
+
+
                 {user && (
                     <div>
-
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleMenu}
-                            color="inherit"
-                        >
-                            <Typography sx={{fontSize: 14, marginRight: 2}}>{user?user.username:""}</Typography>
-                            <AccountCircle/>
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorEl}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'right',
-                            }}
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <MenuItem onClick={() => {
-                                navigate("/profile")
-                            }}>Profile</MenuItem>
-                            <MenuItem onClick={() => {
-                                localStorage.clear()
-                                dispatch(cartClear())
-                                dispatch(arrayClear())
-                                dispatch(counterClear())
-                                navigate("/login")
-                            }}>Sign Out</MenuItem>
-                        </Menu>
-
-
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={() => {
-                                navigate("/cart")
-                            }}
-                            color="inherit"
-                        >
-                            <StyledBadge
-                                badgeContent={JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")).length : 0}
-
+                        {user.role === "store" ?
+                            <></> : <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={() => {
+                                    navigate("/cart")
+                                }}
+                                color="inherit"
                             >
-                                <ShoppingCartIcon/>
-                            </StyledBadge>
-                        </IconButton>
+                                <StyledBadge
+                                    badgeContent={JSON.parse(localStorage.getItem("data")) ? JSON.parse(localStorage.getItem("data")).length : 0}
+
+                                >
+                                    <ShoppingCartIcon/>
+                                </StyledBadge>
+                            </IconButton>}
                     </div>
 
                 )}

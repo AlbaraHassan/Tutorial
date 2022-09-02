@@ -14,10 +14,10 @@ const usernameValidator = async (username) => {
 
 
 const register = async (data) => {
-    const { username, password } = data
+    const { username, password, role } = data
     await usernameValidator(username)
     const hash = await bcrypt.hash(password, 10)
-    return await User.create({ ...{ "username": username, "password": hash } })
+    return await User.create({ ...{ "username": username, "password": hash, "role": role} })
 }
 
 

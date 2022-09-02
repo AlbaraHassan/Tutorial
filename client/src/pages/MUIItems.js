@@ -5,7 +5,7 @@ import {useNavigate} from 'react-router-dom'
 import {addCart, removeFromCartById} from '../features/cart'
 import {getAll} from '../features/items'
 import Grid from '@mui/material/Grid'
-import { Button, Card, CardActions, CardContent, Typography} from '@mui/material'
+import {Button, Card, CardActions, CardContent, Typography} from '@mui/material'
 import {loginUser} from '../features/user'
 import NavBar from '../components/NavBar'
 import {arrayAdd, arrayRemove} from "../features/array"
@@ -59,7 +59,7 @@ const MUIItems = () => {
         }
 
         if (!user) fetchUser() //Fix for sending unneeded requests
-        if (items.length === 0) fetchAllItems()
+        fetchAllItems()
 
     }, [])
 
@@ -76,9 +76,9 @@ const MUIItems = () => {
                 {items.map((el) => {
                     return <Grid item xs={3} key={el._id}>
                         <Grid container justifyContent="center" spacing={0}>
-                            <Card sx={{minWidth: 275, marginTop: 5, height: 200, backgroundColor: "#d5bdaf"}}>
+                            <Card sx={{minWidth: 275, marginTop: 5, height: 250, backgroundColor: "#d5bdaf"}}>
                                 <CardContent>
-                                    <Typography sx={{fontSize: 20}} color="white" gutterBottom>
+                                    <Typography sx={{fontSize: 30}} color="white" gutterBottom>
                                         {el.name}
                                     </Typography>
                                     <Typography variant="h5" component="div" color={"#006d77"}>
@@ -89,17 +89,22 @@ const MUIItems = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    {!cart.includes(el) ? <Button size="small" variant="outlined"sx={{borderColor:"#006d77", color:"#006d77"}} onClick={() => {
-                                            handleCart(el)
-                                        }}>
-                                            Add To Cart
-                                        </Button> :
-                                        <Button size="small" sx={{color: "red", borderColor: "red"}} variant="outlined"
-                                                onClick={() => {
-                                                    handleRemove(el)
-                                                }}>
-                                            Remove From Cart
-                                        </Button>}
+                                    {user.role === "user" ?
+                                        (!cart.includes(el) ? <Button size="small" variant="outlined"
+                                                                      sx={{borderColor: "#006d77", color: "#006d77"}}
+                                                                      onClick={() => {
+                                                                          handleCart(el)
+                                                                      }}>
+                                                Add To Cart
+                                            </Button> :
+                                            <Button size="small" sx={{color: "red", borderColor: "red"}}
+                                                    variant="outlined"
+                                                    onClick={() => {
+                                                        handleRemove(el)
+                                                    }}>
+                                                Remove From Cart
+                                            </Button>)
+                                        :<></>}
                                 </CardActions>
                             </Card>
                         </Grid>

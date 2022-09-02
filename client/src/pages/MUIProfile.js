@@ -16,12 +16,13 @@ import {
 } from "@mui/material"
 import NavBar from "../components/NavBar"
 import Grid from "@mui/material/Grid"
-import {ShoppingCart} from "@mui/icons-material"
-import TaskAltIcon from '@mui/icons-material/TaskAlt'
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import {useNavigate} from "react-router-dom";
 
 const MUIProfile = () => {
     const user = useSelector((state) => state.user.value)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const fetchUser = async () => {
         const res = await axios.post("http://localhost:5000/user/get-me", {}, {
             "headers": {
@@ -30,6 +31,7 @@ const MUIProfile = () => {
         })
 
         dispatch(loginUser(res.data))
+
     }
 
     const sum = (arr) => {
@@ -69,12 +71,21 @@ const MUIProfile = () => {
                                             theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
                                     }}
                                 >
-                                    <Typography variant={"h4"}>
-                                        <Avatar sx={{
-                                            height: 100,
-                                            width: 100,
-                                            marginBottom: 2,
-                                        }}/>
+                                    <Typography variant={"h4"} align={"center"}>
+                                        {user ? (
+                                            user.role === "user" ? <Avatar sx={{
+                                                height: 100,
+                                                width: 100,
+                                                marginBottom: 2,
+                                            }}/> : <StorefrontIcon sx={{
+                                                height: 100,
+                                                width: 100,
+                                                marginBottom: 2,
+                                                fontsize: "small"
+                                            }}/>
+
+                                        ) : <></>}
+
                                         {user ? user.username : ""}
                                     </Typography>
 
@@ -90,7 +101,9 @@ const MUIProfile = () => {
                                                     </TableCell>
                                                     <TableCell align="center">
                                                         <Typography variant={"h5"}>
-                                                            Total Amount Payed
+                                                            {user ?
+                                                                (user.role === "user" ? "Total Amount Payed" : "Total Revenue")
+                                                                : <></>}
                                                         </Typography>
                                                     </TableCell>
                                                 </TableRow>
@@ -124,7 +137,10 @@ const MUIProfile = () => {
                                             <TableRow>
                                                 <TableCell align={"center"}>
                                                     <Typography variant={"h4"}>
-                                                        Items Purchased
+
+                                                        {user ?
+                                                            (user.role === "user" ? "Items Purchased" : "Items Sold")
+                                                            : <></>}
                                                     </Typography>
                                                 </TableCell>
                                                 <TableCell align="center">

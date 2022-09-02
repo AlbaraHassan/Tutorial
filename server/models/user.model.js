@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, {Schema} from "mongoose";
 
 const UserSchema = new Schema({
 
@@ -11,11 +11,15 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
-    cart: [ {
+    role: {
+        type: String,
+        required: true
+    },
+    cart: [{
         type: mongoose.Schema.Types.ObjectId,
         required: true,
         ref: 'Cart'
-    } ],
+    }],
 
 });
 

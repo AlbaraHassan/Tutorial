@@ -10,6 +10,7 @@ import {setArray} from "./features/array";
 import {setCounter} from "./features/counter";
 import {useEffect, useState} from "react";
 import MUIProfile from "./pages/MUIProfile";
+import MUIStore from "./pages/MUIStore";
 
 
 function App() {
@@ -42,6 +43,8 @@ function App() {
             <Route path="register" element={<MUIRegister/>}/>
             <Route path="login" element={<MUILogin/>}/>
             <Route path="profile" element={<MUIProfile/>}/>
+            <Route path="store" element={<MUIStore/>}/>
+
         </Routes>
 
 

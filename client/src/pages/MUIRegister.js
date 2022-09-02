@@ -1,12 +1,12 @@
-import { useFormik } from "formik"
+import {useFormik} from "formik"
 import * as yup from "yup"
-import { FormControl, Snackbar, TextField, Link } from "@mui/material"
+import {FormControl, Snackbar, TextField, Link, Radio} from "@mui/material"
 import MuiAlert from "@mui/material/Alert"
-import { Button, Typography } from "@mui/material"
-import { Container } from "@mui/system"
+import {Button, Typography} from "@mui/material"
+import {Container} from "@mui/system"
 import axios from "axios"
-import { useState, forwardRef, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import {useState, forwardRef, useEffect} from "react"
+import {useNavigate} from "react-router-dom"
 
 
 const Alert = forwardRef(function Alert(props, ref) {
@@ -15,9 +15,9 @@ const Alert = forwardRef(function Alert(props, ref) {
 
 const MUIRegister = () => {
 
-    const [ isSuccess, setIsSuccess ] = useState()
-    const [ open, setOpen ] = useState(false)
-    const [ error, setError ] = useState("")
+    const [isSuccess, setIsSuccess] = useState()
+    const [open, setOpen] = useState(false)
+    const [error, setError] = useState("")
 
     const navigate = useNavigate()
 
@@ -25,7 +25,9 @@ const MUIRegister = () => {
     const validationSchema = yup.object({
         username: yup.string().min(6, "Username must be at least 6 characters").required("Username is required!"),
         password: yup.string().required("password is required!"),
-        passwordAgain: yup.string().required("password is required!").oneOf([ yup.ref('password'), null ], 'Passwords must match')
+        passwordAgain: yup.string().required("password is required!").oneOf([yup.ref('password'), null], 'Passwords must match'),
+        role: yup.string().required("role is required!")
+
     })
 
 
@@ -33,18 +35,21 @@ const MUIRegister = () => {
         initialValues: {
             username: "",
             password: "",
-            passwordAgain: ""
+            passwordAgain: "",
+            role: "user"
         },
         onSubmit: async (values) => {
             const data = values
             const body = {
                 "username": data.username,
-                "password": data.password
+                "password": data.password,
+                "role": data.role
             }
+
             try {
                 await axios.post("http://localhost:5000/user/register", body)
                 setIsSuccess(true)
-                setTimeout(()=>{
+                setTimeout(() => {
                     navigate("/items")
                 }, 2000)
             } catch (e) {
@@ -68,10 +73,11 @@ const MUIRegister = () => {
 
     return (
         <>
-            <Container component={"div"} maxWidth="md" sx={{ backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20 }}>
-                <Typography variant="h3" color="initial" sx={{ marginBottom: 10 }} align="center">Register</Typography>
+            <Container component={"div"} maxWidth="md"
+                       sx={{backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20}}>
+                <Typography variant="h3" color="initial" sx={{marginBottom: 10}} align="center">Register</Typography>
                 <form onSubmit={formik.handleSubmit}>
-                    <FormControl sx={{ width: "100%", alignItems: "center" }} >
+                    <FormControl sx={{width: "100%", alignItems: "center"}}>
                         <TextField
                             id="username"
                             name="username"
@@ -80,7 +86,7 @@ const MUIRegister = () => {
                             onChange={formik.handleChange}
                             error={formik.touched.username && Boolean(formik.errors.username)}
                             helperText={formik.touched.username && formik.errors.username}
-                            sx={{ marginBottom: 3, width: "100%" }} />
+                            sx={{marginBottom: 3, width: "100%"}}/>
 
                         <TextField
                             id="password"
@@ -91,7 +97,7 @@ const MUIRegister = () => {
                             onChange={formik.handleChange}
                             error={formik.touched.password && Boolean(formik.errors.password)}
                             helperText={formik.touched.password && formik.errors.password}
-                            sx={{ marginBottom: 3, width: "100%" }} />
+                            sx={{marginBottom: 3, width: "100%"}}/>
 
                         <TextField
                             id="passwordagain"
@@ -102,8 +108,33 @@ const MUIRegister = () => {
                             onChange={formik.handleChange}
                             error={formik.touched.passwordAgain && Boolean(formik.errors.passwordAgain)}
                             helperText={formik.touched.passwordAgain && formik.errors.passwordAgain}
-                            sx={{ marginBottom: 3, width: "100%" }} />
-                        <Button variant="contained" type="submit" sx={{ width: { xs: "100%", md: "50%",marginBottom:10 } }}>Register</Button>
+                            sx={{marginBottom: 3, width: "100%"}}/>
+                        <Typography variant={"h6"}>
+                        User
+                        <Radio
+                            checked={formik.values.role === 'user'}
+                            onChange={formik.handleChange}
+                            value="user"
+                            name="role"
+                            inputProps={{'aria-label': 'USER'}}
+                        />
+
+                        </Typography>
+
+                        <Typography variant={"h6"}>
+                            Store
+                            <Radio
+                                checked={formik.values.role === 'store'}
+                                onChange={formik.handleChange}
+                                value="store"
+                                name="role"
+                                inputProps={{'aria-label': 'STORE'}}
+                            />
+                        </Typography>
+
+
+                        <Button variant="contained" type="submit"
+                                sx={{width: {xs: "100%", md: "50%", marginBottom: 10}}}>Register</Button>
 
                         <Link href="login">Already have an account? Login</Link>
 
@@ -111,20 +142,27 @@ const MUIRegister = () => {
                 </form>
             </Container>
 
-            <Snackbar open={open} anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                autoHideDuration={6000} onClose={() => { setOpen(false) }}>
-                <Alert onClose={() => { setOpen(false) }} severity="error" sx={{ width: '100%' }}>
+            <Snackbar open={open} anchorOrigin={{vertical: "top", horizontal: "center"}}
+                      autoHideDuration={6000} onClose={() => {
+                setOpen(false)
+            }}>
+                <Alert onClose={() => {
+                    setOpen(false)
+                }} severity="error" sx={{width: '100%'}}>
                     {error}
                 </Alert>
             </Snackbar>
 
-            <Snackbar open={isSuccess} anchorOrigin={{ vertical: "top", horizontal: "center" }}
-                autoHideDuration={6000} onClose={() => { setIsSuccess(false) }}>
-                <Alert onClose={() => { setIsSuccess(false) }} severity="success" sx={{ width: '100%' }}>
+            <Snackbar open={isSuccess} anchorOrigin={{vertical: "top", horizontal: "center"}}
+                      autoHideDuration={6000} onClose={() => {
+                setIsSuccess(false)
+            }}>
+                <Alert onClose={() => {
+                    setIsSuccess(false)
+                }} severity="success" sx={{width: '100%'}}>
                     Registeration Complete
                 </Alert>
             </Snackbar>
-
 
 
         </>
