@@ -34,6 +34,8 @@ const MUIProfile = () => {
 
     }
 
+
+
     const sum = (arr) => {
         let sum = 0
         for (let i of arr) {
@@ -48,7 +50,7 @@ const MUIProfile = () => {
 
     return (
         <>
-            <NavBar user={user}/>
+            <NavBar user={user? user:{}}/>
             <Container component={"div"} maxWidth="large" sx={{
                 backgroundColor: "whitesmoke",
                 borderRadius: 10,
@@ -56,8 +58,6 @@ const MUIProfile = () => {
                 marginTop: 5,
                 minHeight: 600
             }}>
-
-
                 <Grid sx={{flexGrow: 1}} container spacing={5}>
                     <Grid item xs={15}>
                         <Grid container justifyContent="center" spacing={5}>
