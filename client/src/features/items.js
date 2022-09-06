@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit"
 
 const itemsSlice = createSlice({
     name: "items",
-    initialState: { value: [] },
+    initialState: { value: null },
     reducers: {
         getAll: (state, action) => {
             state.value = action.payload

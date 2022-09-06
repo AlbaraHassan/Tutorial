@@ -21,8 +21,16 @@ const get_one_item = async (id) => {
     return Item.findById(id).populate("category_id").populate("subcategory_id");
 }
 
-const get_all_items = async () => {
-    return Item.find().populate("category_id").populate("subcategory_id");
+const get_all_items = async (page, limit) => {
+    if (!page) page = 1
+    if (!limit) limit = 10
+    const totalPages = await Item.count()
+    if (page > Math.ceil(totalPages / limit)) throw Error("Page Does Not Exist")
+    const data = await Item.find().limit(limit).skip(limit * (page - 1)).populate("category_id").populate("subcategory_id");
+    return {
+        totalPages: Math.ceil(totalPages / limit),
+        data: data
+    }
 }
 
 
