@@ -24,7 +24,10 @@ const Alert = React.forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />
 })
 
-
+const Item = styled(Paper)(({theme}) => ({
+    padding: theme.spacing(1),
+    textAlign: 'center',
+}))
 
 
 const MUICart = () => {
@@ -38,6 +41,7 @@ const MUICart = () => {
     const counter = useSelector((state) => state.counter.value)
     const array = useSelector((state) => state.array.value)
     const dispatch = useDispatch()
+
 
     const fetchUser = async () => {
         const res = await axios.post("http://localhost:5000/user/get-me", {}, {
@@ -68,7 +72,7 @@ const MUICart = () => {
             return
         }
         dispatch(arrayRemove(arr[0]))
-
+        setTotal(total-arr[1])
         dispatch(subtract(arr))
 
         for (let i of counter) {

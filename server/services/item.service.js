@@ -18,7 +18,7 @@ const validate_category_subcategory = async (category_id, subcategory_id) => {
 
 
 const get_one_item = async (id) => {
-    return await Item.findById(id).populate("category_id").populate("subcategory_id").exec()
+    return Item.findById(id).populate("category_id").populate("subcategory_id");
 }
 
 const get_all_items = async () => {

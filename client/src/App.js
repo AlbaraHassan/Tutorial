@@ -8,9 +8,10 @@ import {useDispatch} from "react-redux";
 import {setCart} from "./features/cart";
 import {setArray} from "./features/array";
 import {setCounter} from "./features/counter";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import MUIProfile from "./pages/MUIProfile";
 import MUIStore from "./pages/MUIStore";
+import MUIUpdate from "./pages/MUIUpdate";
 
 
 function App() {
@@ -44,6 +45,8 @@ function App() {
             <Route path="login" element={<MUILogin/>}/>
             <Route path="profile" element={<MUIProfile/>}/>
             <Route path="store" element={<MUIStore/>}/>
+            <Route path="update/:id" element={<MUIUpdate/>}/>
+
 
         </Routes>
 

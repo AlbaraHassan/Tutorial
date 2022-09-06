@@ -1,10 +1,4 @@
-import React, {forwardRef, useEffect, useState} from 'react'
-import axios from "axios"
-import {useDispatch, useSelector} from "react-redux"
-import {loginUser} from "../features/user"
-import {useNavigate} from "react-router-dom";
-import NavBar from "../components/NavBar";
-import {Container} from "@mui/system";
+import React, {forwardRef, useState} from 'react';
 import {
     Button,
     FormControl,
@@ -19,20 +13,18 @@ import {
 } from "@mui/material";
 import {useFormik} from "formik";
 import * as yup from "yup"
+import axios from "axios";
+import {useNavigate} from "react-router-dom";
 import MuiAlert from "@mui/material/Alert";
 
 const Alert = forwardRef(function Alert(props, ref) {
     return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
 
-const MUIStore = () => {
+const Forum = ({item, categories, subcategories, id}) => {
     const [open, setOpen] = useState(false)
     const [isSuccess, setIsSuccess] = useState()
     const [error, setError] = useState("")
-    const [categories, setCategories] = useState([])
-    const [subcategories, setSubcategories] = useState([])
-    const user = useSelector((state) => state.user.value)
-    const dispatch = useDispatch()
     const navigate = useNavigate()
 
     const validationSchema = yup.object({
@@ -42,26 +34,23 @@ const MUIStore = () => {
         price: yup.number().required("Price is required")
 
     })
-
-
     const formik = useFormik({
         initialValues: {
-            name: "",
-            category_id: "",
-            subcategory_id: "",
-            price: 0
+            name: item.name,
+            category_id: item.category_id._id,
+            subcategory_id: item.subcategory_id._id,
+            price: item.price
         },
         onSubmit: async (values) => {
             const data = values
             const body = {
                 "name": data.name,
-                "store_id": user._id,
                 "category_id": data.category_id,
                 "subcategory_id": data.subcategory_id,
                 "price": data.price
             }
             try {
-                await axios.post("http://localhost:5000/item", body)
+                await axios.patch(`http://localhost:5000/item/${id}`, body)
                 setIsSuccess(true)
                 setTimeout(() => {
                     navigate("/items")
@@ -74,53 +63,8 @@ const MUIStore = () => {
         },
         validationSchema: validationSchema
     })
-
-
-    const fetchUser = async () => {
-        const res = await axios.post("http://localhost:5000/user/get-me", {}, {
-            "headers": {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-
-        dispatch(loginUser(res.data))
-        if (user && user.role !== "store") navigate("/profile")
-
-    }
-
-    const fetchCat = async () => {
-        const res = await axios.get("http://localhost:5000/category", {}, {
-            "headers": {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-
-        setCategories(res.data)
-    }
-
-    const fetchSubcat = async () => {
-        const res = await axios.get("http://localhost:5000/subcategory", {}, {
-            "headers": {
-                "Authorization": `Bearer ${localStorage.getItem("accessToken")}`
-            }
-        })
-
-        setSubcategories(res.data)
-    }
-
-    useEffect(() => {
-        if (!user) fetchUser()
-        fetchCat()
-        fetchSubcat()
-    }, [])
-
-
-    return (<>
-        <NavBar user={user ? user : null}/>
-
-        <Container component={"div"} maxWidth="md"
-                   sx={{backgroundColor: "whitesmoke", padding: 10, borderRadius: 10, marginTop: 20}}>
-            <Typography variant="h3" color="initial" sx={{marginBottom: 10}} align="center">Add Item</Typography>
+    return (
+        <>
             <form onSubmit={formik.handleSubmit}>
                 <FormControl sx={{width: "100%", alignItems: "center"}}>
                     <TextField
@@ -144,8 +88,7 @@ const MUIStore = () => {
                         error={formik.touched.category_id && Boolean(formik.errors.category_id)}
                         helperText={formik.touched.category_id && formik.errors.category_id}
                         fullWidth
-                        sx={{marginBottom:3}}
-
+                        sx={{marginBottom: 3}}
                     >
                         <MenuItem key={""} value={""}>
                             No Selected // Or Empty
@@ -165,7 +108,8 @@ const MUIStore = () => {
                         error={formik.touched.subcategory_id && Boolean(formik.errors.subcategory_id)}
                         helperText={formik.touched.subcategory_id && formik.errors.subcategory_id}
                         fullWidth
-                        sx={{marginBottom:3}}
+                        sx={{marginBottom: 3}}
+
                     >
                         <MenuItem key={""} value={""}>
                             No Selected // Or Empty
@@ -188,39 +132,35 @@ const MUIStore = () => {
                         sx={{marginBottom: 3, width: "100%"}}/>
 
                     <Button variant="contained" type="submit"
-                            sx={{width: {xs: "100%", md: "50%", marginBottom: 10}}}>Add Item</Button>
+                            sx={{width: {xs: "100%", md: "50%", marginBottom: 10}}}>Update Item</Button>
 
                 </FormControl>
             </form>
-        </Container>
 
-        <Snackbar open={open} anchorOrigin={{vertical: "top", horizontal: "center"}}
-                  autoHideDuration={6000} onClose={() => {
-            setOpen(false)
-        }}>
-            <Alert onClose={() => {
+
+            <Snackbar open={open} anchorOrigin={{vertical: "top", horizontal: "center"}}
+                      autoHideDuration={6000} onClose={() => {
                 setOpen(false)
-            }} severity="error" sx={{width: '100%'}}>
-                {error}
-            </Alert>
-        </Snackbar>
+            }}>
+                <Alert onClose={() => {
+                    setOpen(false)
+                }} severity="error" sx={{width: '100%'}}>
+                    {error}
+                </Alert>
+            </Snackbar>
 
-        <Snackbar open={isSuccess} anchorOrigin={{vertical: "top", horizontal: "center"}}
-                  autoHideDuration={6000} onClose={() => {
-            setIsSuccess(false)
-        }}>
-            <Alert onClose={() => {
+            <Snackbar open={isSuccess} anchorOrigin={{vertical: "top", horizontal: "center"}}
+                      autoHideDuration={6000} onClose={() => {
                 setIsSuccess(false)
-            }} severity="success" sx={{width: '100%'}}>
-                Added Successfully
-            </Alert>
-        </Snackbar>
+            }}>
+                <Alert onClose={() => {
+                    setIsSuccess(false)
+                }} severity="success" sx={{width: '100%'}}>
+                    Updated Successfully
+                </Alert>
+            </Snackbar>
+        </>
+    );
+};
 
-
-    </>)
-
-
-}
-
-
-export default MUIStore
+export default Forum;

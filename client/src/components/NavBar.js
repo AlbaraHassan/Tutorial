@@ -1,5 +1,5 @@
 import {AppBar, IconButton, Menu, MenuItem, Toolbar, Typography} from '@mui/material'
-import React, {useState} from 'react'
+import React, {memo, useState} from 'react'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import {useNavigate} from 'react-router-dom';
@@ -146,4 +146,4 @@ const NavBar = ({user}) => {
     )
 };
 
-export default NavBar
+export default memo(NavBar)

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {memo} from 'react'
 import {
     Button, ButtonGroup,
     Paper,
@@ -93,4 +93,4 @@ const CartList = ({cart, counter, cartAddHandler, cartSubtractHandler}) => {
     );
 };
 
-export default CartList;
+export default memo(CartList);
